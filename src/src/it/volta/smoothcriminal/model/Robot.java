@@ -1,0 +1,42 @@
+package it.volta.smoothcriminal.model;
+
+import it.volta.smoothcriminal.core.Entita;
+
+public class Robot extends Entita{
+
+    public Robot(int x, int y){
+        super(x,y);
+    }
+
+    public boolean muovi(char dir, Labirinto mappa){
+        //1 = sopra, 2 = sotto, 3 = destra, 4 = sinistra
+
+        switch(Character.toLowerCase(dir)){
+            case 'w':
+                if(mappa.isMuro(x, y-1)){
+                    return false;
+                }
+                setXY(x, y-1);
+                break;
+            case 's':
+                if(mappa.isMuro(x, y+1)){
+                    return false;
+                }
+                setXY(x, y+1);
+                break;
+            case 'd':
+                if(mappa.isMuro(x+1, y)){
+                    return false;
+                }
+                setXY(x+1, y);
+                break;
+            case 'a':
+                if(mappa.isMuro(x-1, y)){
+                    return false;
+                }
+                setXY(x-1, y);
+                break;
+        }
+        return true;
+    }
+}
