@@ -30,12 +30,19 @@ public class Labirinto {
     public Labirinto() {
         rows = labirinto.split("\n");
         righe = rows.length;
-        colonne = rows[0].length();
+        colonne = 0;
+        for (int i = 0; i < righe; i++) {
+            colonne = Math.max(colonne, rows[i].length());
+        }
         mat = new char[righe][colonne];
 
         for(int i = 0; i < righe; i++) {
-            for(int j = 0; j < rows[i].length(); j++) {
-                mat[i][j] = rows[i].charAt(j);
+            for(int j = 0; j < colonne; j++) {
+                if (j < rows[i].length()) {
+                    mat[i][j] = rows[i].charAt(j);
+                } else {
+                    mat[i][j] = '█';
+                }
             }
         }
 
@@ -45,14 +52,12 @@ public class Labirinto {
 
 
     public boolean isMuro(int x, int y) {
-        System.out.println(mat[0][2]);
-        System.out.println(x +" " + y + "   GGGGGGG ");
-        if (mat[x][y] == '█') return true;
+        if (mat[y][x] == '█') return true;
         return false;
     }
 
     public boolean isUscita(int x, int y) {
-        if (mat[x][y] == 'U') return true;
+        if (mat[y][x] == 'U') return true;
         return false;
     }
 
