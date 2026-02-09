@@ -1,15 +1,16 @@
 package it.volta.smoothcriminal;
 
 import it.volta.smoothcriminal.console.GiocoConsole;
-import it.volta.smoothcriminal.core.Videogioco;
 import it.volta.smoothcriminal.model.*;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        Labirinto labirinto = new Labirinto();
-        Robot robot = new Robot(labirinto.getInizioX(), labirinto.getInizioY());
-        GiocoConsole gioco = new GiocoConsole(robot, labirinto);
+        LevelLoader loader = new LevelLoader();
+        Labirinto labirinto = loader.loadLevel(1);
+        Criminal criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
+
+        GiocoConsole gioco = new GiocoConsole(criminal, labirinto);
         Scanner input = new Scanner(System.in);
         int ris;
 

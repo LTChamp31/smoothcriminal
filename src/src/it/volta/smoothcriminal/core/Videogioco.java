@@ -3,19 +3,19 @@ package it.volta.smoothcriminal.core;
 import it.volta.smoothcriminal.model.*;
 
 public abstract class Videogioco {
-    protected Robot robot;
+    protected Criminal criminal;
     protected Labirinto labirinto;
     protected boolean inCorso;
 
-    public Videogioco(Robot robot, Labirinto labirinto) {
-        this.robot = robot;
+    public Videogioco(Criminal criminal, Labirinto labirinto) {
+        this.criminal = criminal;
         this.labirinto = labirinto;
         inCorso = true;
     }
 
     public boolean controllaVittoria() {
-        int x = robot.getX();
-        int y = robot.getY();
+        int x = criminal.getX();
+        int y = criminal.getY();
         if (labirinto.isUscita(x,y)) {
             inCorso = false;
             return true;
@@ -24,7 +24,5 @@ public abstract class Videogioco {
     }
 
     public abstract void avvia();
-    public abstract char leggiInput();
-    public abstract void mostraStato(char move);
 
 }
