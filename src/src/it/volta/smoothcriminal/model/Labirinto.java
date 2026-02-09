@@ -1,72 +1,75 @@
 package it.volta.smoothcriminal.model;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Labirinto {
-    char mat[][];
-    String[] rows;
+    List<List<Character>> mat = new ArrayList<>();
     int righe, colonne, inizioX, inizioY;
-    public String labirinto =   "   ████████████████████████████\n" +
-                                "                              █\n" +
-                                "█  ██████████  ██████████  ████\n" +
-                                "█           █  █     █        █\n" +
-                                "████  █████████████  ████  ████\n" +
-                                "█  █              █  █        █\n" +
-                                "█  █  █  █  █  ████  ████  ████\n" +
-                                "█     █  █  █  █  █  █     █  █\n" +
-                                "███████  ███████  █  ████  █  █\n" +
-                                "█              █        █  █  █\n" +
-                                "████  █  ███████  █  ████  █  █\n" +
-                                "█  █  █        █  █     █     █\n" +
-                                "█  ███████  █  ███████  █  █  █\n" +
-                                "█  █  █     █  █        █  █  █\n" +
-                                "█  █  ████  ████  █  █  █  ████\n" +
-                                "█  █  █        █  █  █     █  █\n" +
-                                "█  █  █  █  ███████  █  █  █  █\n" +
-                                "█        █  █        █  █     █\n" +
-                                "█  ████████████████  █  █  ████\n" +
-                                "█           █        █  █     \n" +
-                                "████████████████████████████  U";
-
 
     public Labirinto() {
-        rows = labirinto.split("\n");
-        righe = rows.length;
-        colonne = 0;
-        for (int i = 0; i < righe; i++) {
-            colonne = Math.max(colonne, rows[i].length());
-        }
-        mat = new char[righe][colonne];
+        loadLevel(1);
+    }
 
-        for(int i = 0; i < righe; i++) {
-            for(int j = 0; j < colonne; j++) {
-                if (j < rows[i].length()) {
-                    mat[i][j] = rows[i].charAt(j);
-                } else {
-                    mat[i][j] = '█';
+    public void loadLevel(int l) {
+        String livello = "src/resources/levels/livello" + l + ".txt";
+
+        mat.clear();
+
+        mat.add(new ArrayList<>());
+        try (BufferedReader reader = new BufferedReader(new FileReader(livello))) {
+            int charValue;
+            righe = 0;
+            while ((charValue = reader.read()) != -1) {
+                char ch = (char) charValue;
+
+                if (ch == '\n') {
+                    righe++;
+                    mat.add(new ArrayList<>());
+                } else if (ch != '\r') { // Ignore Windows carriage returns
+                    mat.get(righe).add(ch);
                 }
             }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
         }
-
+        this.righe = mat.size();
+        this.colonne = 0;
+        for(List<Character> row : mat) {
+            this.colonne = Math.max(this.colonne, row.size());
+        }
         inizioX = 0;
         inizioY = 0;
     }
 
 
     public boolean isMuro(int x, int y) {
-        if (mat[y][x] == '█') return true;
-        return false;
+        if (y < 0 || y >= mat.size() || x < 0 || x >= mat.get(y).size()) {
+            return true;
+        }
+        return mat.get(y).get(x) == '█';
     }
 
     public boolean isUscita(int x, int y) {
-        if (mat[y][x] == 'U') return true;
+        if (mat.get(y).get(x) == 'U') return true;
         return false;
     }
 
     public String mappa(int x, int y) {
         String map = "";
-        for (int i=0; i< righe; i++) {
-            for (int j=0; j< rows[i].length(); j++) {
-                if (i==y && j==x) map += "R";
-                else map += mat[i][j];
+        for (int i=0; i< mat.size(); i++) {
+            List<Character> row = mat.get(i); // Get the current row
+            for (int j=0; j< colonne; j++) {
+                if (i==y && j==x) map += "ℜ";
+                else if (j < row.size()) {
+                    map += row.get(j);
+                }
+                else {
+                    // If the row is shorter than the maximum width, add a space
+                    map += " ";
+                }
             }
             map += "\n";
         }
