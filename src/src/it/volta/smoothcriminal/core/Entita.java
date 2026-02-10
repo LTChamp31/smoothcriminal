@@ -18,4 +18,11 @@ public class Entita {
         this.x = x;
         this.y = y;
     }
+
+    /*Possibili entità nemiche:
+    1. attraversa i muri
+    2. si muove in diagonale
+    3.
+    4.
+     */
 }

@@ -3,6 +3,7 @@ package it.volta.smoothcriminal.console;
 import it.volta.smoothcriminal.core.Videogioco;
 import it.volta.smoothcriminal.model.Labirinto;
 import it.volta.smoothcriminal.model.Criminal;
+import it.volta.smoothcriminal.model.LevelLoader;
 
 import java.util.Scanner;
 
@@ -10,6 +11,7 @@ public class GiocoConsole extends Videogioco {
 
     ConsoleUI ui;
     GameLoop loop;
+    LevelLoader loader = new LevelLoader();
 
     public GiocoConsole(Criminal criminal, Labirinto labirinto) {
         super(criminal, labirinto);
@@ -29,7 +31,13 @@ public class GiocoConsole extends Videogioco {
     }
 
     public void avviaStoria() {
-        loop.run(labirinto, criminal, this::controllaVittoria);
+        int level = 1;
+        do {
+            Labirinto labirinto = loader.loadLevel(level);
+            loop.run(labirinto, criminal, this::controllaVittoria);
+            menu()
+        } while(level)
+
     }
 
     public void avviaAllenamento() {
@@ -52,8 +60,11 @@ public class GiocoConsole extends Videogioco {
 
     }
 
-    public void salvaRecord(String nome, long secondi) {
-
+    public void salvaRecord(String nome, long secondi, int mappa) {
+        //un file.txt per ogni mappa del torneo
+        //mappe della storia in un file, SI Entità(non subito), SI trappole(non subito), SI Gadget(non subito)
+        //mappe dell'allenamento generate a caso, a scelta dell'utente gadget, trappole ed entità
+        //mappe del torneo in un file, difficolta crescente, NO Gadget, SI Entità, SI trappole
     }
 
 
