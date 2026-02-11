@@ -36,7 +36,7 @@ public class GiocoConsole extends Videogioco {
             Labirinto labirinto = loader.loadLevel(level);
             loop.run(labirinto, criminal, this::controllaVittoria);
             menu()
-        } while(level)
+        } while(level);
 
     }
 

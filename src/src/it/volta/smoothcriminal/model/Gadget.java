@@ -1,6 +1,24 @@
 package it.volta.smoothcriminal.model;
+import it.*;
 
-public class Gadget {
+public class Gadget extends Oggetti{
+
+    private int durata;
+    public Gadget(String nome, int x, int y, Labirinto labirinto, Criminal criminal, int durata) {
+        super(nome,x,y, labirinto, criminal);
+        this.durata = durata;
+    }
+
+    public int getDurata(){
+        return durata;
+    }
+
+    public void usa(){
+
+    }
+
+
+
 
     /*idee per gadget:
     1. distruggi mura

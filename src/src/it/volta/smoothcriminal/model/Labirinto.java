@@ -53,5 +53,11 @@ public class Labirinto {
         return inizioY;
     }
 
+    //Dopo
+    public int getColonne() {return colonne;}
+
+    public int getRighe() {return mat.size();}
+
+
 
 }
