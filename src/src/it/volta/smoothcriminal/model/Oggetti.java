@@ -1,5 +1,5 @@
 package it.volta.smoothcriminal.model;
-import it.*;
+
 
 public abstract class Oggetti {
 

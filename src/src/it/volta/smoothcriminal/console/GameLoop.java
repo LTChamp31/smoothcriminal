@@ -17,6 +17,7 @@ public class GameLoop {
         ui.render(labirinto, criminal);
 
         while (!vittoria.getAsBoolean()) {
+            System.out.print("Muoviti: W A S D ");
             move = ui.leggiInput();
             criminal.muovi(move, labirinto);
             ui.render(labirinto, criminal);

@@ -1,10 +1,10 @@
 package it.volta.smoothcriminal.console;
 
 import it.volta.smoothcriminal.core.Videogioco;
-import it.volta.smoothcriminal.model.Labirinto;
-import it.volta.smoothcriminal.model.Criminal;
-import it.volta.smoothcriminal.model.LevelLoader;
+import it.volta.smoothcriminal.model.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GiocoConsole extends Videogioco {
@@ -12,6 +12,8 @@ public class GiocoConsole extends Videogioco {
     ConsoleUI ui;
     GameLoop loop;
     LevelLoader loader = new LevelLoader();
+    Gadget[] gadget = new Gadget[6];
+    List<Trappole> trappole = new ArrayList<>();
 
     public GiocoConsole(Criminal criminal, Labirinto labirinto) {
         super(criminal, labirinto);
@@ -31,12 +33,12 @@ public class GiocoConsole extends Videogioco {
     }
 
     public void avviaStoria() {
+
         int level = 1;
         do {
             Labirinto labirinto = loader.loadLevel(level);
             loop.run(labirinto, criminal, this::controllaVittoria);
-            menu()
-        } while(level);
+        } while(level < 3);
 
     }
 
@@ -48,6 +50,7 @@ public class GiocoConsole extends Videogioco {
     }
 
     public void avviaTorneo() {
+        Tra
         long inizio = System.currentTimeMillis();
 
         String nome = ui.scegliNome();

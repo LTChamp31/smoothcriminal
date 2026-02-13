@@ -16,7 +16,7 @@ public class Trappole extends Oggetti{
 
     public void usa() {
         if (nome == "suscita") {
-
+            labirinto.spostaUscita();
         }
     }
 

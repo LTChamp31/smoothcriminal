@@ -34,7 +34,6 @@ public class ConsoleUI {
     }
 
     public char leggiInput() {
-        System.out.print("Muoviti: W A S D ");
         boolean ok;
         char move;
         do {
@@ -46,4 +45,19 @@ public class ConsoleUI {
         } while (!ok);
         return move;
     }
+
+    public char leggiInput(char diagonale) {
+        boolean ok;
+        char move;
+        do {
+            ok = false;
+            move = Character.toLowerCase(input.next().charAt(0));
+            if (move == 'q' || move == 'e' || move == 'z' || move == 'c') {
+                ok = true;
+            } else System.out.print("Mossa non valida, riprova:");
+        } while (!ok);
+        return move;
+    }
+
+
 }
