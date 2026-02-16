@@ -2,11 +2,10 @@
 1. far funzionare le trappole
 2. far funzionare i gadget
 3. fare le mappe per storia
-4. fare le mapper per torneo
-5.fare l'algoritmo di generazione del labirinto
+4. fare le mappe per torneo
+5. fare l'algoritmo di generazione del labirinto
 6. scrittura e lettura da file per torneo
 7. aggiungere entità
 8. uccidersi
 9. saltare dal tetto
-10. buttarsi in mare
-
+10.buttarsi in mare

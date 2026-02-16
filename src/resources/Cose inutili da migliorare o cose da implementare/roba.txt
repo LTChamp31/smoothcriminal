@@ -1,0 +1,129 @@
+===16/02/2026===
+COSE INUTILI OTTIMIZZABILI:
+ConsoleUI.scegliNome()
+
+input.nextLine();
+return input.nextLine();
+
+
+La prima nextLine() serve solo se prima hai fatto nextInt(), ma se viene chiamato senza contesto crea una riga vuota inutilmente.
+
+Soluzione: rimuovi la prima nextLine() o gestisci il "buffer" solo quando serve.
+
+leggiInput(char diagonale) e leggiInput()
+
+Sono molto simili, potresti unificarle in un metodo generico con i tasti ammessi come parametro.
+
+public char leggiInput(char[] validi) { ... }
+
+
+GameLoop
+
+move e m sono variabili di istanza inutili, possono essere locali dentro run().
+
+ControllaOggetti controllaOggetti; viene istanziato ogni run(), ma puoi passarla come parametro o creare una volta sola.
+
+Gadget
+
+Hai un ConsoleUI input = new ConsoleUI(); dentro ogni gadget: inutile duplicare l’oggetto scanner per ogni gadget. Puoi passare l’UI come parametro o usare un singleton.
+
+Labirinto.mappa()
+
+Stai costruendo la stringa concatenando caratteri uno a uno con +=, questo è inefficiente. Meglio usare StringBuilder.
+
+Labirinto.getTrappole() e getGadgets()
+
+I tipi non sono coerenti: List<Integer>[] e int[][]. Potresti usare classi dedicate tipo Posizione o Point per rendere tutto più chiaro.
+
+Oggetti
+
+Duplicato due volte nel codice che mi hai mandato. Basta una definizione.
+
+LevelLoader
+
+Dichiarazioni tipo xyTrappole = new ArrayList[3]; con generics non sono sicure (warning), meglio usare List<List<Integer>> oppure creare una classe TrappolaPos.
+
+1️⃣ Trappole
+
+Scopo: reagiscono quando il criminale passa sopra (es. spostano uscita, teletrasportano).
+
+Dove gestirle:
+
+Classe Labirinto
+
+Mantieni una lista/array delle coordinate delle trappole.
+
+Puoi aggiungere un metodo getTrappole() per restituire le coordinate o gli oggetti trappola.
+
+Classe nuova Trappole
+
+Oggetto con: tipo di trappola (sposta uscita, teletrasporto), coordinate (x,y) e metodo usa().
+
+Classe ControllaOggetti (o ControllaTrappole)
+
+Controlla se il criminale è sopra una trappola ogni volta che si muove.
+
+Chiama trappola.usa() se il criminale è sopra.
+
+GameLoop
+
+Dopo criminal.muovi(move, labirinto)
+
+Aggiungi: controllaOggetti.controlla(criminal.getX(), criminal.getY())
+
+2️⃣ Gadget
+
+Scopo: il criminale può usarli per modificare il labirinto o muoversi diversamente.
+
+Dove gestirli:
+
+Classe Gadget (già hai Oggetti)
+
+Ogni gadget ha un usa() con logica specifica (es. “distruggi muro”, “salta muro”, “muove diagonale”, “bomba”, “avvicina uscita”).
+
+Labirinto
+
+Mantieni le coordinate dei gadget sulla mappa (array xyGadgets).
+
+Quando il criminale passa sopra, puoi mostrare un messaggio o aggiungerlo all’inventario.
+
+Criminal
+
+Mantieni un array di gadget posseduti.
+
+Aggiungi metodo usaGadget(int index) per chiamare gadget[index].usa().
+
+GameLoop
+
+Durante il turno, puoi chiedere input:
+
+W/A/S/D → movimento
+
+G/J/D/B/Y → usa gadget se presente nel criminale
+
+3️⃣ Nemici (Entità ostili)
+
+Scopo: ostacolano il criminale, possono muoversi in modi diversi.
+
+Dove gestirli:
+
+Classe Entita
+
+Aggiungi sottoclassi per ogni tipo di nemico:
+
+Es. NemicoBase, NemicoDiagonale, NemicoAttraversaMuri
+
+Ogni entità ha coordinate (x,y) e metodo muovi(Labirinto).
+
+Labirinto
+
+Mantieni una lista di entità presenti nella mappa.
+
+GameLoop
+
+Dopo il turno del criminale:
+
+Per ogni nemico, chiama nemico.muovi(labirinto).
+
+Controlla collisione con il criminale → danno, game over, ecc.
+
