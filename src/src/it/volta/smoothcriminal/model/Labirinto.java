@@ -7,10 +7,11 @@ public class Labirinto {
     private final int inizioY, colonne;
     private int uscitaY, uscitaX;
     private List<List<Character>> mat;
-    private final List<Integer> xyTrappole;
-    private Trappole trappla = new Trappole();
-    private Gadget gadget = new Gadget();
-    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int UscitaY, List<Integer> xyTrappole) {
+    private final List<Integer>[] xyTrappole;
+    private final int[][] xyGadgets;
+    private Trappole[] trappole;
+
+    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int UscitaY, List<Integer>[] xyTrappole, int[][] xyGadgets) {
         this.mat = mat;
         this.inizioX = inizioX;
         this.inizioY = inizioY;
@@ -18,6 +19,7 @@ public class Labirinto {
         this.uscitaX = uscitaX;
         this.uscitaY = uscitaY;
         this.xyTrappole = xyTrappole;
+        this.xyGadgets = xyGadgets;
     }
 
 
@@ -56,17 +58,11 @@ public class Labirinto {
         mat.get(y).set(x, ' ');
     }
 
-    public void spostaUscita() {
+    public void spostaUscita(int ux, int uy) {
         mat.get(uscitaY).set(uscitaX, ' ');
-        int ux, uy;
-        do {
-            ux = (int) (Math.random() * colonne);
-            uy = (int) (Math.random() * mat.size());
-            if (!isMuro(ux, uy)) {
-                uscitaX = ux;
-                uscitaY = uy;
-            }
-        } while (!isMuro(ux, uy));
+        uscitaX = ux;
+        uscitaY = uy;
+        mat.get(uscitaY).set(uscitaX, 'U');
     }
 
     public void avvicinaUscita(int xc, int yc, int xu, int yu) {
@@ -89,17 +85,14 @@ public class Labirinto {
 
     public int getUscitaY() { return uscitaY; }
 
-    public void controllaTrappole(int x, int y) {
-        if (xyTrappole.contains(x)) {
-            if (xyTrappole.contains(y)) {
-                trappole
-            }
-        }
+    public List<Integer>[] getTrappole() {
+        return xyTrappole;
     }
 
-    public void controllaGadget(int x, int y){
-        if (mat.get(y).get(x) == 'D') gadget.usa("distruggi mura");
+    public int[][] getGadgets() {
+        return xyGadgets;
     }
+
     //Dopo
     public int getColonne() {return colonne;}
 

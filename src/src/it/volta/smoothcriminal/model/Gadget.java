@@ -5,16 +5,11 @@ public class Gadget extends Oggetti{
 
     private ConsoleUI input = new ConsoleUI();
     private int durata;
-    public Gadget(String nome, int x, int y, Labirinto labirinto, Criminal criminal, int durata) {
+    public Gadget(String nome, int x, int y, Labirinto labirinto, Criminal criminal) {
         super(labirinto, criminal, x, y, nome);
-        this.durata = durata;
     }
 
-    public int getDurata(){
-        return durata;
-    }
-
-    public void usa(String nome){
+    public void usa(){
         char ris;
         switch(nome){
             case "distruggi mura":
@@ -73,7 +68,7 @@ public class Gadget extends Oggetti{
                         break;
                 }
                 break;
-            case "muove in diagonale":
+            case "muove diagonale":
                 System.out.println("Seleziona una direzione in cui muoverti(Q, E, Z, C): ");
                 ris = input.leggiInput('d');
                 switch(ris){
@@ -126,12 +121,12 @@ public class Gadget extends Oggetti{
 
 
     /*idee per gadget:
-    1. distruggi mura
-    2. salta mura
-    3. si muove in diagonale
-    4. bomba,fa esplodere un muro per ogni direzione
+    1. distruggi mura (G) 1
+    2. salta mura  (J) 2
+    3. si muove in diagonale (D) 3
+    4. bomba,fa esplodere un muro per ogni direzione (B) 4
     5. Ti fa vedere tutta la mappa per tot secondi(per quando è oscurata) DOPO MAPPA OSCURATA ORA NO 13/02/2025
-    6. ti avvicina l'uscita
+    6. ti avvicina l'uscita (Y) 5
     7.
 
 

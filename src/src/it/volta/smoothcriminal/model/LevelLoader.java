@@ -7,12 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LevelLoader {
-    private int righe, colonne, inizioX, inizioY, uscitaX, uscitaY, nTrappole=0;
+    private int righe, colonne, inizioX=0, inizioY=0, uscitaX, uscitaY, nTrappole=0;
     private List<List<Character>> mat = new ArrayList<>();
-    private List<Integer> xyTrappole = new ArrayList<>();
+    private List<Integer>[] xyTrappole = new ArrayList[3];
+    private int[][] xyGadgets = new int[5][2];
 
     public LevelLoader() {
-
+        for (int i=0; i<3; i++) {
+            xyTrappole[i] = new ArrayList<>();
+        }
     }
 
     public Labirinto loadLevel(int l) {
@@ -26,23 +29,56 @@ public class LevelLoader {
             righe = 0;
             while ((charValue = reader.read()) != -1) {
                 char ch = (char) charValue;
-                if (ch == 'U') {
-                    uscitaY = righe;
-                    uscitaX = currentcol;
-                } else if (ch == 'S') {
-                    ch = ' ';
-                    xyTrappole.add(righe);
-                    xyTrappole.add(currentcol);
-                } else if (ch == 'T') {
-                    ch = ' ';
-                    xyTrappole.add(righe+100);
-                    xyTrappole.add(currentcol+100);
+
+                switch (ch) {
+                    case 'I':
+                        ch = ' ';
+                        inizioY = righe;
+                        inizioX = currentcol;
+                        break;
+                    case 'U':
+                        uscitaY = righe;
+                        uscitaX = currentcol;
+                        break;
+                    //Inizio Trappole
+                    case 'S':
+                        ch = ' ';
+                        xyTrappole[0].add(righe);
+                        xyTrappole[0].add(currentcol);
+                        break;
+                    case 'T':
+                        ch = ' ';
+                        xyTrappole[1].add(righe);
+                        xyTrappole[1].add(currentcol);
+                        break;
+                    //Inizio Gadget
+                    case 'G':
+                        xyGadgets[0][0] = righe;
+                        xyGadgets[0][1] = currentcol;
+                        break;
+                    case 'J':
+                        xyGadgets[1][0] = righe;
+                        xyGadgets[1][1] = currentcol;
+                        break;
+                    case 'D':
+                        xyGadgets[2][0] = righe;
+                        xyGadgets[2][1] = currentcol;
+                        break;
+                    case 'B':
+                        xyGadgets[3][0] = righe;
+                        xyGadgets[3][1] = currentcol;
+                        break;
+                    case 'Y':
+                        xyGadgets[4][0] = righe;
+                        xyGadgets[4][1] = currentcol;
+                        break;
                 }
                 if (ch == '\n') {
                     righe++;
                     mat.add(new ArrayList<>());
                     currentcol = 0;
-                } else if (ch != '\r') { // Ignore Windows carriage returns
+                }
+                else if (ch != '\r') { // Ignore Windows carriage returns
                     mat.get(righe).add(ch);
                     currentcol++;
                 }
@@ -56,9 +92,10 @@ public class LevelLoader {
         for(List<Character> row : mat) {
             this.colonne = Math.max(this.colonne, row.size());
         }
-        inizioX = 0;
-        inizioY = 0;
 
-        return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole);
+        return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadgets);
     }
 }
+
+
+
