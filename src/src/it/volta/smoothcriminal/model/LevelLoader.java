@@ -11,11 +11,22 @@ public class LevelLoader {
     private List<List<Character>> mat = new ArrayList<>();
     private List<Integer>[] xyTrappole = new ArrayList[3];
     private int[][] xyGadgets = new int[5][2];
+    GernerateLabirinto gernerateLabirinto = new GernerateLabirinto(10,10);
+
 
     public LevelLoader() {
         for (int i=0; i<3; i++) {
             xyTrappole[i] = new ArrayList<>();
         }
+    }
+
+    public Labirinto loadlevel() {
+        char matr[][] = gernerateLabirinto.generateLabirinto();
+        colonne = 10;
+        righe = 10;
+        uscitaX = 9;
+        uscitaY = 8;
+        return new Labirinto(matr, inizioX, inizioY, colonne, uscitaX, uscitaY);
     }
 
     public Labirinto loadLevel(int l) {
