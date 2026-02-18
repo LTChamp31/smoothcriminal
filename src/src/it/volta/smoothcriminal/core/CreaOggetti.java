@@ -8,7 +8,6 @@ public class CreaOggetti {
     Criminal criminal;
     Labirinto labirinto;
     Trappole trappola;
-    Gadget distruggiMura;
     private List<Integer>[] xyTrappole;
     private Trappole[] trappole = new Trappole[5];
     private int[][] xyGadgets;
@@ -25,12 +24,12 @@ public class CreaOggetti {
         for (int i=0; i<3; i++) {
             for (int j=0; j<xyTrappole[i].size(); j+=2) {
                 if (i==0) {
-                    trappola = new Trappole(labirinto, criminal, xyTrappole[0].get(j), xyTrappole[0].get(j++), "Sposta Uscita");
+                    trappola = new Trappole(labirinto, criminal, xyTrappole[0].get(j++), xyTrappole[0].get(j), "Sposta Uscita");
                     trappole[contaTrappole] = trappola;
                     System.out.println(trappole[contaTrappole].getNome());
                     contaTrappole++;
                 } else if (i==1) {
-                    trappola = new Trappole(labirinto, criminal, xyTrappole[1].get(j), xyTrappole[1].get(j++), "Teleport");
+                    trappola = new Trappole(labirinto, criminal, xyTrappole[1].get(j++), xyTrappole[1].get(j), "Teleport");
                     trappole[contaTrappole] = trappola;
                     System.out.println(trappole[contaTrappole].getNome());
                     contaTrappole++;

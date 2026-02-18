@@ -15,7 +15,8 @@ public class ControllaOggetti {
 
     public void controllaTrappole(int x, int y) {
         System.out.println(trappole.length);
-        for (int i=0; i<trappole.length; i++){
+        for (int i=0; i<2; i++){
+            System.out.println(x + " " + y + "\n" + trappole[i].getX() + " " + trappole[i].getY());
             if  (trappole[i].getX() == x && trappole[i].getY() == y){
                 trappole[i].usa();
             }

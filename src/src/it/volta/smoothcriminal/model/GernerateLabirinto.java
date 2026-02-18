@@ -1,5 +1,6 @@
 package it.volta.smoothcriminal.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -17,15 +18,24 @@ public class GernerateLabirinto {
 
         for (int i=0; i<altezza; i++) {
             for (int j=0; j<larghezza; j++) {
-                matrice[i][j] = '#';
+                matrice[i][j] = '█';
             }
         }
 
     }
 
-    public char[][] generateLabirinto(){
+    public List<List<Character>> generateLabirinto(){
         crearePassagio(1,1);
-        return matrice;
+        List<List<Character>> mat = new ArrayList<>();
+
+        for (char[] row : matrice) {
+            List<Character> listRow = new ArrayList<>();
+            for (char c : row) {
+                listRow.add(c); // Java auto-boxes 'char' to 'Character'
+            }
+            mat.add(listRow);
+        }
+        return mat;
     }
 
     public void crearePassagio(int i, int j){

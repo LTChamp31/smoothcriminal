@@ -4,7 +4,6 @@ import it.volta.smoothcriminal.console.ConsoleUI;
 public class Gadget extends Oggetti{
 
     private ConsoleUI input = new ConsoleUI();
-    private int durata;
     public Gadget(String nome, int x, int y, Labirinto labirinto, Criminal criminal) {
         super(labirinto, criminal, x, y, nome);
     }

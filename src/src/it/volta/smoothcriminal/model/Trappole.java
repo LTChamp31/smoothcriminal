@@ -15,7 +15,9 @@ public class Trappole extends Oggetti{
 
 
     public void usa() {
-        if (nome == "Sposta Uscita") {
+        System.out.println("Usa trappole");
+        if (nome.equals("Sposta Uscita")) {
+            System.out.println("Sposta Uscita");
             int ux, uy;
             do {
                 ux = (int) (Math.random() * labirinto.getColonne());
@@ -25,7 +27,7 @@ public class Trappole extends Oggetti{
                 }
             } while (labirinto.isMuro(ux, uy));
 
-        } else if (nome == "Teleport") {
+        } else if (nome.equals("Teleport")) {
             int tx, ty;
             do {
                 tx = (int) (Math.random() * labirinto.getColonne());

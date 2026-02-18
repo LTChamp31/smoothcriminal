@@ -20,14 +20,15 @@ public class LevelLoader {
         }
     }
 
-    public Labirinto loadlevel() {
-        char matr[][] = gernerateLabirinto.generateLabirinto();
+    /*public Labirinto loadLevel() {
+        System.out.println("QUI");
+        mat = gernerateLabirinto.generateLabirinto();
         colonne = 10;
         righe = 10;
         uscitaX = 9;
         uscitaY = 8;
-        return new Labirinto(matr, inizioX, inizioY, colonne, uscitaX, uscitaY);
-    }
+        return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadgets);
+    }*/
 
     public Labirinto loadLevel(int l) {
         String livello = "src/resources/levels/livello" + l + ".txt";
@@ -54,13 +55,15 @@ public class LevelLoader {
                     //Inizio Trappole
                     case 'S':
                         ch = ' ';
-                        xyTrappole[0].add(righe);
                         xyTrappole[0].add(currentcol);
+                        xyTrappole[0].add(righe);
+
                         break;
                     case 'T':
                         ch = ' ';
-                        xyTrappole[1].add(righe);
                         xyTrappole[1].add(currentcol);
+                        xyTrappole[1].add(righe);
+
                         break;
                     //Inizio Gadget
                     case 'G':

@@ -7,22 +7,11 @@ public class Labirinto {
     private final int inizioY, colonne;
     private int uscitaY, uscitaX;
     private List<List<Character>> mat;
-    private final List<Integer>[] xyTrappole;
-    private final int[][] xyGadgets;
+    private List<Integer>[] xyTrappole;
+    private int[][] xyGadgets;
     private Trappole[] trappole;
 
 
-    public Labirinto(char[][] matr, int inizioX, int inizioY, int colonne, int uscitaX, int UscitaY) {
-        this.mat = new ArrayList<>();
-        for (char[] row : matr) {
-            this.mat.add(List.of(row));
-        }
-        this.inizioX = inizioX;
-        this.inizioY = inizioY;
-        this.colonne = colonne;
-        this.uscitaX = uscitaX;
-        this.uscitaY = uscitaY;
-    }
 
     public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int UscitaY, List<Integer>[] xyTrappole, int[][] xyGadgets) {
         this.mat = mat;
