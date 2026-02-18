@@ -7,13 +7,13 @@ public class Labirinto {
     private final int inizioY, colonne;
     private int uscitaY, uscitaX;
     private List<List<Character>> mat;
-    private List<Integer>[] xyTrappole;
+    private List<Coordinate>[] xyTrappole;
     private int[][] xyGadgets;
     private Trappole[] trappole;
 
 
 
-    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int UscitaY, List<Integer>[] xyTrappole, int[][] xyGadgets) {
+    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int UscitaY, List<Coordinate>[] xyTrappole, int[][] xyGadgets) {
         this.mat = mat;
         this.inizioX = inizioX;
         this.inizioY = inizioY;
@@ -87,7 +87,7 @@ public class Labirinto {
 
     public int getUscitaY() { return uscitaY; }
 
-    public List<Integer>[] getTrappole() {
+    public List<Coordinate>[] getTrappole() {
         return xyTrappole;
     }
 

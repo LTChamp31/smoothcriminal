@@ -11,17 +11,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GiocoConsole extends Videogioco {
-    CreaOggetti creaOggetti;
     ConsoleUI ui;
     GameLoop loop;
     LevelLoader loader = new LevelLoader();
     Gadget[] gadget = new Gadget[6];
+    List<Trappole> trappole;
 
-    public GiocoConsole(Criminal criminal, Labirinto labirinto, CreaOggetti creaOggetti) {
+    public GiocoConsole(Criminal criminal, Labirinto labirinto) {
         super(criminal, labirinto);
         this.ui = new ConsoleUI();
         this.loop = new GameLoop(ui);
-        this.creaOggetti = creaOggetti;
     }
 
     public void avvia() {
@@ -39,20 +38,33 @@ public class GiocoConsole extends Videogioco {
 
         int level = 1;
         do {
-            Labirinto labirinto = loader.loadLevel(level);
-            loop.run(labirinto, criminal, this::controllaVittoria, creaOggetti);
+            this.labirinto = loader.loadLevel(level);
+            this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
+            this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
+
+            loop.run(labirinto, criminal, this::controllaVittoria, trappole);
         } while(level < 3);
 
     }
 
     public void avviaAllenamento() {
+        this.labirinto = loader.loadLevel();
+        this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
+        this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
+
+
         long inizio = System.currentTimeMillis();
-        loop.run(labirinto, criminal, this::controllaVittoria, creaOggetti);
+        loop.run(labirinto, criminal, this::controllaVittoria, trappole);
         long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;
     }
 
     public void avviaTorneo() {
+        this.labirinto = loader.loadLevel(1);
+        this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
+        this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
+
+
         List<String> tutteLeMappe = new ArrayList<>();
 
         // 1. Leggiamo l'intero file e separiamo le mappe ASCII
@@ -88,7 +100,7 @@ public class GiocoConsole extends Videogioco {
         long inizio = System.currentTimeMillis();
         String nome = ui.scegliNome();
 
-        loop.run(labirinto, criminal, this::controllaVittoria, creaOggetti);
+        loop.run(labirinto, criminal, this::controllaVittoria, trappole);
 
         long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;

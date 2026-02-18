@@ -15,9 +15,7 @@ public class Trappole extends Oggetti{
 
 
     public void usa() {
-        System.out.println("Usa trappole");
         if (nome.equals("Sposta Uscita")) {
-            System.out.println("Sposta Uscita");
             int ux, uy;
             do {
                 ux = (int) (Math.random() * labirinto.getColonne());

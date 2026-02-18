@@ -5,13 +5,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class GernerateLabirinto {
+public class GeneraLabirinto {
     private int altezza, larghezza;
     private char[][] matrice;
-    private Integer[][] direzioni = {{0,2},{0,-2},{2,0},{-2,0}};
-    List<Integer[]> dirList = Arrays.asList(direzioni);
+    private Integer[][] direzioniTemplate = {{0,2},{0,-2},{2,0},{-2,0}};
 
-    public GernerateLabirinto(int altezza, int larghezza){
+    public GeneraLabirinto(int altezza, int larghezza){
         this.altezza = altezza;
         this.larghezza = larghezza;
         matrice = new char[altezza][larghezza];
@@ -26,12 +25,17 @@ public class GernerateLabirinto {
 
     public List<List<Character>> generateLabirinto(){
         crearePassagio(1,1);
+        matrice[altezza-2][larghezza-1] = 'U';
+        if (matrice[altezza-2][larghezza-2] == '█') {
+            matrice[altezza-2][larghezza-2] = ' ';
+        }
+
         List<List<Character>> mat = new ArrayList<>();
 
         for (char[] row : matrice) {
             List<Character> listRow = new ArrayList<>();
             for (char c : row) {
-                listRow.add(c); // Java auto-boxes 'char' to 'Character'
+                listRow.add(c);
             }
             mat.add(listRow);
         }
@@ -40,18 +44,23 @@ public class GernerateLabirinto {
 
     public void crearePassagio(int i, int j){
         matrice[i][j] = ' ';
-        Collections.shuffle(dirList);
+        List<Integer[]> localDirezioni = new ArrayList<>(Arrays.asList(direzioniTemplate));
+        Collections.shuffle(localDirezioni);
 
-        for (Integer[] dir : dirList) {
+        for (Integer[] dir : localDirezioni) {
             int prossimoI = i + dir[0];
             int prossimoJ = j + dir[1];
-            if (prossimoI >= 0 && prossimoI < altezza && prossimoJ >= 0 && prossimoJ < larghezza && matrice[prossimoI][prossimoJ] == '#') {
+
+            if (prossimoI >= 0 && prossimoI < altezza-1 && prossimoJ >= 0 && prossimoJ < larghezza-1 && matrice[prossimoI][prossimoJ] == '█') {
                 matrice[i + dir[0]/2][j + dir[1]/2] = ' ';
 
                 crearePassagio(prossimoI, prossimoJ);
             }
         }
     }
+
+    public int getAltezza() { return altezza; }
+    public int getLarghezza() { return larghezza; }
 
 
 }

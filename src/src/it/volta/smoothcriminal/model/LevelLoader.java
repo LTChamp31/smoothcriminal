@@ -9,9 +9,9 @@ import java.util.List;
 public class LevelLoader {
     private int righe, colonne, inizioX=0, inizioY=0, uscitaX, uscitaY, nTrappole=0;
     private List<List<Character>> mat = new ArrayList<>();
-    private List<Integer>[] xyTrappole = new ArrayList[3];
+    List<Coordinate>[] xyTrappole = new ArrayList[3];
     private int[][] xyGadgets = new int[5][2];
-    GernerateLabirinto gernerateLabirinto = new GernerateLabirinto(10,10);
+    GeneraLabirinto generaLabirinto = new GeneraLabirinto(21,21);
 
 
     public LevelLoader() {
@@ -20,22 +20,30 @@ public class LevelLoader {
         }
     }
 
-    /*public Labirinto loadLevel() {
-        System.out.println("QUI");
-        mat = gernerateLabirinto.generateLabirinto();
-        colonne = 10;
-        righe = 10;
-        uscitaX = 9;
-        uscitaY = 8;
+    public Labirinto loadLevel() {
+        mat.clear();
+        mat = generaLabirinto.generateLabirinto();
+        colonne = generaLabirinto.getLarghezza();
+        righe = generaLabirinto.getAltezza();
+        uscitaX = colonne-1;
+        uscitaY = righe-2;
+        inizioX = 1;
+        inizioY = 1;
         return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadgets);
-    }*/
+    }
 
     public Labirinto loadLevel(int l) {
         String livello = "src/resources/levels/livello" + l + ".txt";
 
+        //Cancellare vecchie trappole e matrice
+        for (int i=0; i<3; i++) {
+            xyTrappole[i].clear();
+        }
         mat.clear();
+
         int currentcol = 0;
         mat.add(new ArrayList<>());
+
         try (BufferedReader reader = new BufferedReader(new FileReader(livello))) {
             int charValue;
             righe = 0;
@@ -55,15 +63,12 @@ public class LevelLoader {
                     //Inizio Trappole
                     case 'S':
                         ch = ' ';
-                        xyTrappole[0].add(currentcol);
-                        xyTrappole[0].add(righe);
+                        xyTrappole[0].add(new Coordinate(currentcol, righe));
 
                         break;
                     case 'T':
                         ch = ' ';
-                        xyTrappole[1].add(currentcol);
-                        xyTrappole[1].add(righe);
-
+                        xyTrappole[1].add(new Coordinate(currentcol, righe));
                         break;
                     //Inizio Gadget
                     case 'G':
