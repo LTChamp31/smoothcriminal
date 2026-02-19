@@ -65,33 +65,7 @@ public class GiocoConsole extends Videogioco {
         this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
 
 
-        List<String> tutteLeMappe = new ArrayList<>();
 
-        // 1. Leggiamo l'intero file e separiamo le mappe ASCII
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/levels/levelsTorneo.txt"))) {
-            StringBuilder mappaCorrente = new StringBuilder();
-            String linea;
-
-            while ((linea = br.readLine()) != null) {
-                if (linea.equals("---")) { // Trovato il separatore
-                    tutteLeMappe.add(mappaCorrente.toString());
-                    mappaCorrente.setLength(0); // Svuota per la prossima mappa
-                } else {
-                    mappaCorrente.append(linea).append("\n");
-                }
-            }
-            // Aggiungi l'ultima mappa se il file non finisce con ---
-            if (mappaCorrente.length() > 0) tutteLeMappe.add(mappaCorrente.toString());
-
-        } catch (IOException e) {
-            System.err.println("Errore caricamento mappe: " + e.getMessage());
-            return;
-        }
-
-        // 2. Scegliamo una mappa a caso
-        Random rand = new Random();
-        int indiceMappa = rand.nextInt(tutteLeMappe.size());
-        String mappaAsciiScelta = tutteLeMappe.get(indiceMappa);
 
         // Qui dovrai passare 'mappaAsciiScelta' al tuo oggetto labirinto
         // labirinto.caricaDaStringa(mappaAsciiScelta);

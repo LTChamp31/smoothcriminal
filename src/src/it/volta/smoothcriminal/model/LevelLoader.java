@@ -5,13 +5,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class LevelLoader {
     private int righe, colonne, inizioX=0, inizioY=0, uscitaX, uscitaY, nTrappole=0;
     private List<List<Character>> mat = new ArrayList<>();
     List<Coordinate>[] xyTrappole = new ArrayList[3];
     private int[][] xyGadgets = new int[5][2];
-    GeneraLabirinto generaLabirinto = new GeneraLabirinto(21,21);
+    int altezza = 17 + 2 * (int)(Math.random() * 6);
+    int larghezza = 17 + 2 * (int)(Math.random() * 6);
+    GeneraLabirinto generaLabirinto = new GeneraLabirinto(altezza, larghezza);
 
 
     public LevelLoader() {
@@ -30,6 +33,36 @@ public class LevelLoader {
         inizioX = 1;
         inizioY = 1;
         return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadgets);
+    }
+
+    public Labirinto loadTorneo() {
+        List<String> tutteLeMappe = new ArrayList<>();
+
+        // 1. Leggiamo l'intero file e separiamo le mappe ASCII
+        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/levels/levelsTorneo.txt"))) {
+            StringBuilder mappaCorrente = new StringBuilder();
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                if (linea.equals("---")) { // Trovato il separatore
+                    tutteLeMappe.add(mappaCorrente.toString());
+                    mappaCorrente.setLength(0); // Svuota per la prossima mappa
+                } else {
+                    mappaCorrente.append(linea).append("\n");
+                }
+            }
+            // Aggiungi l'ultima mappa se il file non finisce con ---
+            if (mappaCorrente.length() > 0) tutteLeMappe.add(mappaCorrente.toString());
+
+        } catch (IOException e) {
+            System.err.println("Errore caricamento mappe: " + e.getMessage());
+            return;
+        }
+
+        // 2. Scegliamo una mappa a caso
+        Random rand = new Random();
+        int indiceMappa = rand.nextInt(tutteLeMappe.size());
+        String mappaAsciiScelta = tutteLeMappe.get(indiceMappa);
     }
 
     public Labirinto loadLevel(int l) {
