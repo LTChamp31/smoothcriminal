@@ -33,7 +33,7 @@ public class Trappole extends Oggetti{
                 if (!labirinto.isMuro(tx, ty)) {
                     criminal.setXY(tx, ty);
                 }
-            } while (!labirinto.isMuro(tx, ty));
+            } while (labirinto.isMuro(tx, ty));
         }
     }
 

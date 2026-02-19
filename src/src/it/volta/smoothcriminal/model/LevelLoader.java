@@ -35,35 +35,105 @@ public class LevelLoader {
         return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadgets);
     }
 
-    public Labirinto loadTorneo() {
+    public Labirinto loadTorneo(int[] indiceScelto) {
+
         List<String> tutteLeMappe = new ArrayList<>();
 
-        // 1. Leggiamo l'intero file e separiamo le mappe ASCII
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/levels/levelsTorneo.txt"))) {
+        // 1. Leggiamo tutte le mappe separate da ---
+        try (BufferedReader br = new BufferedReader(
+                new FileReader("src/resources/levels/livelliTorneo.txt"))) {
+
             StringBuilder mappaCorrente = new StringBuilder();
             String linea;
 
             while ((linea = br.readLine()) != null) {
-                if (linea.equals("---")) { // Trovato il separatore
+
+                if (linea.equals("---")) {
                     tutteLeMappe.add(mappaCorrente.toString());
-                    mappaCorrente.setLength(0); // Svuota per la prossima mappa
+                    mappaCorrente.setLength(0);
                 } else {
                     mappaCorrente.append(linea).append("\n");
                 }
             }
-            // Aggiungi l'ultima mappa se il file non finisce con ---
-            if (mappaCorrente.length() > 0) tutteLeMappe.add(mappaCorrente.toString());
+
+            if (mappaCorrente.length() > 0)
+                tutteLeMappe.add(mappaCorrente.toString());
 
         } catch (IOException e) {
-            System.err.println("Errore caricamento mappe: " + e.getMessage());
-            return;
+            System.out.println("Errore caricamento mappe torneo: " + e.getMessage());
         }
 
-        // 2. Scegliamo una mappa a caso
+        // 2. Scelta random
         Random rand = new Random();
         int indiceMappa = rand.nextInt(tutteLeMappe.size());
-        String mappaAsciiScelta = tutteLeMappe.get(indiceMappa);
+        indiceScelto[0] = indiceMappa;
+
+        String mappaAscii = tutteLeMappe.get(indiceMappa);
+
+        // 3. Parsing mappa
+        mat.clear();
+        for (int i = 0; i < 3; i++)
+            xyTrappole[i].clear();
+
+        int currentCol = 0;
+        righe = 0;
+
+        mat.add(new ArrayList<>());
+
+        for (int i = 0; i < mappaAscii.length(); i++) {
+
+            char ch = mappaAscii.charAt(i);
+
+            switch (ch) {
+                case 'I':
+                    ch = ' ';
+                    inizioY = righe;
+                    inizioX = currentCol;
+                    break;
+
+                case 'U':
+                    uscitaY = righe;
+                    uscitaX = currentCol;
+                    break;
+
+                case 'S':
+                    ch = ' ';
+                    xyTrappole[0].add(new Coordinate(currentCol, righe));
+                    break;
+
+                case 'T':
+                    ch = ' ';
+                    xyTrappole[1].add(new Coordinate(currentCol, righe));
+                    break;
+            }
+
+            if (ch == '\n') {
+                righe++;
+                mat.add(new ArrayList<>());
+                currentCol = 0;
+            }
+            else if (ch != '\r') {
+                mat.get(righe).add(ch);
+                currentCol++;
+            }
+        }
+
+        colonne = 0;
+        for (List<Character> row : mat)
+            colonne = Math.max(colonne, row.size());
+
+        return new Labirinto(
+                mat,
+                inizioX,
+                inizioY,
+                colonne,
+                uscitaX,
+                uscitaY,
+                xyTrappole,
+                xyGadgets
+        );
     }
+
 
     public Labirinto loadLevel(int l) {
         String livello = "src/resources/levels/livello" + l + ".txt";
@@ -147,6 +217,100 @@ public class LevelLoader {
 
         return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadgets);
     }
+
+    public Labirinto loadStoria(int[] indiceScelto) {
+
+        List<String> tutteLeMappe = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/levels/livelliStoria.txt"))) {
+
+            StringBuilder mappaCorrente = new StringBuilder();
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                if (linea.equals("---")) {
+                    tutteLeMappe.add(mappaCorrente.toString());
+                    mappaCorrente.setLength(0);
+                } else {
+                    mappaCorrente.append(linea).append("\n");
+                }
+            }
+
+            if (mappaCorrente.length() > 0)
+                tutteLeMappe.add(mappaCorrente.toString());
+
+        } catch (IOException e) {
+            System.out.println("Errore caricamento mappe storia");
+        }
+
+        int indiceMappa;
+        if (indiceScelto[0] >= 0 && indiceScelto[0] < tutteLeMappe.size()) {
+            indiceMappa = indiceScelto[0];
+        } else {
+            indiceMappa = 0;
+        }
+        indiceScelto[0] = indiceMappa;
+
+        String mappaAscii = tutteLeMappe.get(indiceMappa);
+
+        mat.clear();
+        for (int i = 0; i < 3; i++)
+            xyTrappole[i].clear();
+
+        int currentCol = 0;
+        righe = 0;
+        mat.add(new ArrayList<>());
+
+        for (int i = 0; i < mappaAscii.length(); i++) {
+            char ch = mappaAscii.charAt(i);
+
+            switch (ch) {
+                case 'I':
+                    ch = ' ';
+                    inizioY = righe;
+                    inizioX = currentCol;
+                    break;
+                case 'U':
+                    uscitaY = righe;
+                    uscitaX = currentCol;
+                    break;
+                case 'S':
+                    ch = ' ';
+                    xyTrappole[0].add(new Coordinate(currentCol, righe));
+                    break;
+                case 'T':
+                    ch = ' ';
+                    xyTrappole[1].add(new Coordinate(currentCol, righe));
+                    break;
+            }
+
+            if (ch == '\n') {
+                righe++;
+                mat.add(new ArrayList<>());
+                currentCol = 0;
+            } else if (ch != '\r') {
+                mat.get(righe).add(ch);
+                currentCol++;
+            }
+        }
+
+        colonne = 0;
+        for (List<Character> row : mat)
+            colonne = Math.max(colonne, row.size());
+
+        return new Labirinto(
+                mat,
+                inizioX,
+                inizioY,
+                colonne,
+                uscitaX,
+                uscitaY,
+                xyTrappole,
+                xyGadgets
+        );
+    }
+
+
 }
 
 

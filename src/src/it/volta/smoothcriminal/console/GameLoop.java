@@ -4,6 +4,7 @@ import it.volta.smoothcriminal.core.CreaOggetti;
 import it.volta.smoothcriminal.model.Criminal;
 import it.volta.smoothcriminal.model.Labirinto;
 import it.volta.smoothcriminal.model.Trappole;
+import it.volta.smoothcriminal.model.Gadget;
 
 import java.util.List;
 import java.util.function.BooleanSupplier;
@@ -25,6 +26,7 @@ public class GameLoop {
             //labirinto.controllaTrappole();
             criminal.muovi(move, labirinto);
             controllaOggetti.controllaTrappole(criminal.getX(), criminal.getY());
+            controllaOggetti.controllaGadget(criminal.getX(), criminal.getY());
             ui.render(labirinto, criminal);
         }
     }

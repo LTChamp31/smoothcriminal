@@ -59,5 +59,21 @@ public class ConsoleUI {
         return move;
     }
 
+    public int leggiInput(int livelloSalvato) {
+        boolean ok;
+        int risposta;
+        do {
+            ok = false;
+            System.out.println("Hai raggiunto il livello " + livelloSalvato);
+            System.out.println("1) Riprendi");
+            System.out.println("2) Ricomincia");
+            risposta = input.nextInt();
+            if (risposta == 1 || risposta == 2) {
+                ok = true;
+            } else System.out.print("risposta non valida, riprova:");
+        } while (!ok);
+        return risposta;
+    }
+
 
 }

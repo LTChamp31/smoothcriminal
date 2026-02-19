@@ -7,7 +7,8 @@ public class Criminal extends Entita{
     public Criminal(int x, int y){
         super(x,y);
     }
-    private Gadget[] gadget = new Gadget[3];
+    private Gadget[] gadgetDisponibili = new Gadget[3];
+    private int contatore = 0;
 
     public boolean muovi(char dir, Labirinto mappa){
         //1 = sopra, 2 = sotto, 3 = destra, 4 = sinistra
@@ -39,5 +40,10 @@ public class Criminal extends Entita{
                 break;
         }
         return true;
+    }
+
+    public void aggiungiGadget(Gadget gadget){
+        gadgetDisponibili[contatore] = gadget;
+        contatore++;
     }
 }
