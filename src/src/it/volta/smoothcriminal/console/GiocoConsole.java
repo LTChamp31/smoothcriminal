@@ -14,7 +14,6 @@ public class GiocoConsole extends Videogioco {
     ConsoleUI ui;
     GameLoop loop;
     LevelLoader loader = new LevelLoader();
-    Gadget[] gadget = new Gadget[6];
     List<Trappole> trappole;
     Scanner input = new Scanner(System.in);
 
@@ -44,7 +43,6 @@ public class GiocoConsole extends Videogioco {
             if (scelta == 1) {
                 livelloCorrente = livelloSalvato;
             } else {
-                livelloCorrente = 1;
                 salvaProgresso(nome, 1);
             }
         }
@@ -224,7 +222,7 @@ public class GiocoConsole extends Videogioco {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Errore nella lettura del file");
         }
 
         return contatore;

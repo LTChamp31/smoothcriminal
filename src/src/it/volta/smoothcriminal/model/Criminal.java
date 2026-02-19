@@ -7,7 +7,7 @@ public class Criminal extends Entita{
     public Criminal(int x, int y){
         super(x,y);
     }
-    private Gadget[] gadgetDisponibili = new Gadget[3];
+    private Gadget[] gadgetUtilizzabili = new Gadget[3];
     private int contatore = 0;
 
     public boolean muovi(char dir, Labirinto mappa){
@@ -42,8 +42,14 @@ public class Criminal extends Entita{
         return true;
     }
 
+    public int getContatore(){return contatore;}
+
     public void aggiungiGadget(Gadget gadget){
-        gadgetDisponibili[contatore] = gadget;
+        gadgetUtilizzabili[contatore] = gadget;
+        System.out.println("Gadget Utilizzabili:");
+        for(Gadget g : gadgetUtilizzabili){
+            if(g!=null) System.out.println(g.getNome());
+        }
         contatore++;
     }
 }

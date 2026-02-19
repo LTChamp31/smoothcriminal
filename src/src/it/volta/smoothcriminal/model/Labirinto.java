@@ -42,7 +42,7 @@ public class Labirinto {
         for (int i=0; i< mat.size(); i++) {
             List<Character> row = mat.get(i); // Get the current row
             for (int j=0; j< colonne; j++) {
-                if (i==y && j==x) map += "ℜ";
+                if (i==y && j==x) map += "Ⓒ";
                 else if (j < row.size()) {
                     map += row.get(j);
                 }

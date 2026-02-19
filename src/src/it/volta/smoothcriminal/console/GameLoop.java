@@ -21,12 +21,15 @@ public class GameLoop {
         ui.render(labirinto, criminal);
         controllaOggetti = new ControllaOggetti(trappole);
         while (!vittoria.getAsBoolean()) {
-            System.out.print("Muoviti: W A S D ");
+            if(controllaOggetti.getGadgetCriminal()){
+                System.out.println("Hai a disposizione dei gadget!!");
+            }
+            System.out.println("Muoviti: W A S D ");
             move = ui.leggiInput();
             //labirinto.controllaTrappole();
             criminal.muovi(move, labirinto);
             controllaOggetti.controllaTrappole(criminal.getX(), criminal.getY());
-            controllaOggetti.controllaGadget(criminal.getX(), criminal.getY());
+            controllaOggetti.controllaGadget(criminal.getX(), criminal.getY(), criminal, CreaOggetti.creaGadget(labirinto, criminal));
             ui.render(labirinto, criminal);
         }
     }

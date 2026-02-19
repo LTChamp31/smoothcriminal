@@ -39,7 +39,6 @@ public class LevelLoader {
 
         List<String> tutteLeMappe = new ArrayList<>();
 
-        // 1. Leggiamo tutte le mappe separate da ---
         try (BufferedReader br = new BufferedReader(
                 new FileReader("src/resources/levels/livelliTorneo.txt"))) {
 
@@ -60,17 +59,15 @@ public class LevelLoader {
                 tutteLeMappe.add(mappaCorrente.toString());
 
         } catch (IOException e) {
-            System.out.println("Errore caricamento mappe torneo: " + e.getMessage());
+            System.out.println("Errore caricamento mappe torneo");
         }
 
-        // 2. Scelta random
         Random rand = new Random();
         int indiceMappa = rand.nextInt(tutteLeMappe.size());
         indiceScelto[0] = indiceMappa;
 
         String mappaAscii = tutteLeMappe.get(indiceMappa);
 
-        // 3. Parsing mappa
         mat.clear();
         for (int i = 0; i < 3; i++)
             xyTrappole[i].clear();
@@ -138,7 +135,6 @@ public class LevelLoader {
     public Labirinto loadLevel(int l) {
         String livello = "src/resources/levels/livello" + l + ".txt";
 
-        //Cancellare vecchie trappole e matrice
         for (int i=0; i<3; i++) {
             xyTrappole[i].clear();
         }
@@ -206,7 +202,7 @@ public class LevelLoader {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
+            System.err.println("Error reading file");
             return null;
         }
         this.righe = mat.size();
@@ -282,6 +278,28 @@ public class LevelLoader {
                     ch = ' ';
                     xyTrappole[1].add(new Coordinate(currentCol, righe));
                     break;
+                //Inizio Gadget
+                case 'G':
+                    xyGadgets[0][0] = righe;
+                    xyGadgets[0][1] = currentCol;
+                    break;
+                case 'J':
+                    xyGadgets[1][0] = righe;
+                    xyGadgets[1][1] = currentCol;
+                    break;
+                case 'D':
+                    xyGadgets[2][0] = righe;
+                    xyGadgets[2][1] = currentCol;
+                    break;
+                case 'B':
+                    xyGadgets[3][0] = righe;
+                    xyGadgets[3][1] = currentCol;
+                    break;
+                case 'Y':
+                    xyGadgets[4][0] = righe;
+                    xyGadgets[4][1] = currentCol;
+                    break;
+
             }
 
             if (ch == '\n') {
