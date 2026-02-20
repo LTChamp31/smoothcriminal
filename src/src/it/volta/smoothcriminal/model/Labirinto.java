@@ -9,11 +9,10 @@ public class Labirinto {
     private List<List<Character>> mat;
     private List<Coordinate>[] xyTrappole;
     private int[][] xyGadgets;
-    private Trappole[] trappole;
+    private List<Nemici> nemici;
 
 
-
-    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int UscitaY, List<Coordinate>[] xyTrappole, int[][] xyGadgets) {
+    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int uscitaY, List<Coordinate>[] xyTrappole, int[][] xyGadgets, List<Nemici> nemici) {
         this.mat = mat;
         this.inizioX = inizioX;
         this.inizioY = inizioY;
@@ -22,6 +21,7 @@ public class Labirinto {
         this.uscitaY = uscitaY;
         this.xyTrappole = xyTrappole;
         this.xyGadgets = xyGadgets;
+        this.nemici = nemici;
     }
 
 
@@ -38,33 +38,32 @@ public class Labirinto {
     }
 
     public String mappa(int x, int y) {
-        String map = "";
+        StringBuilder map = new StringBuilder();
         for (int i=0; i< mat.size(); i++) {
             List<Character> row = mat.get(i); // Get the current row
             for (int j=0; j< colonne; j++) {
-                if (i==y && j==x) map += "Ⓒ";
+                if (i==y && j==x) map.append("Ⓒ");
                 else if (j < row.size()) {
-                    map += row.get(j);
+                    map.append(row.get(j));
                 }
                 else {
-                    // If the row is shorter than the maximum width, add a space
-                    map += " ";
+                    map.append(" ");
                 }
             }
-            map += "\n";
+            map.append("\n");
         }
-        return map;
+        return map.toString();
     }
 
-    public void distruggiMura(int x, int y){
+    public void cancellaCarattere(int x, int y){
         mat.get(y).set(x, ' ');
     }
 
     public void spostaUscita(int ux, int uy) {
-        mat.get(uscitaY).set(uscitaX, ' ');
-        uscitaX = ux;
-        uscitaY = uy;
-        mat.get(uscitaY).set(uscitaX, 'U');
+        mat.get(this.uscitaY).set(this.uscitaX, ' ');
+        this.uscitaX = ux;
+        this.uscitaY = uy;
+        mat.get(this.uscitaY).set(this.uscitaX, 'U');
     }
 
     public void avvicinaUscita(int xc, int yc, int xu, int yu) {

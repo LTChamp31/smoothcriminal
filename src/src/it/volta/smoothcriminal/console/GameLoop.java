@@ -21,15 +21,29 @@ public class GameLoop {
         ui.render(labirinto, criminal);
         controllaOggetti = new ControllaOggetti(trappole);
         while (!vittoria.getAsBoolean()) {
-            if(controllaOggetti.getGadgetCriminal()){
+            if(criminal.getGadgetCriminal()){
                 System.out.println("Hai a disposizione dei gadget!!");
+                System.out.print("Premi: ");
+                criminal.tastiGadget();
             }
-            System.out.println("Muoviti: W A S D ");
+            System.out.print("Muoviti: W A S D ");
             move = ui.leggiInput();
-            //labirinto.controllaTrappole();
-            criminal.muovi(move, labirinto);
-            controllaOggetti.controllaTrappole(criminal.getX(), criminal.getY());
-            controllaOggetti.controllaGadget(criminal.getX(), criminal.getY(), criminal, CreaOggetti.creaGadget(labirinto, criminal));
+            if (move == 'w' || move == 'a' || move == 's' || move == 'd') {
+                criminal.muovi(move, labirinto);
+                controllaOggetti.controllaTrappole(criminal.getX(), criminal.getY());
+                controllaOggetti.controllaGadget(criminal.getX(), criminal.getY(), criminal, CreaOggetti.creaGadget(labirinto, criminal), labirinto);
+            }
+            else{
+                int tasto = move - '0';
+                Gadget[] gadgetUtilizabili = criminal.getGadgetUtilizzabili();
+                for(int i=0;i<3;i++){
+                    if(gadgetUtilizabili[i]!=null && tasto==gadgetUtilizabili[i].getTasto()){
+                        gadgetUtilizabili[i].usa();
+                        criminal.rimuoviGadget(gadgetUtilizabili[i]);
+
+                    }
+                }
+            }
             ui.render(labirinto, criminal);
         }
     }

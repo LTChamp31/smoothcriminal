@@ -2,30 +2,33 @@ package it.volta.smoothcriminal.model;
 import it.volta.smoothcriminal.console.ConsoleUI;
 
 public class Gadget extends Oggetti{
-
+    int tasto;
     private ConsoleUI input = new ConsoleUI();
-    public Gadget(String nome, int x, int y, Labirinto labirinto, Criminal criminal) {
+    public Gadget(String nome, int x, int y, Labirinto labirinto, Criminal criminal, int tasto) {
         super(labirinto, criminal, x, y, nome);
+        this.tasto = tasto;
     }
 
     public void usa(){
         char ris;
+        int cx = criminal.getX();
+        int cy = criminal.getY();
         switch(nome){
             case "distruggi mura":
-                System.out.println("Seleziona una direzione in cui distrggere un muro: ");
+                System.out.println("Seleziona una direzione in cui distruggere un muro: ");
                 ris = input.leggiInput();
                 switch(ris){
                     case 'w':
-                        labirinto.distruggiMura(x,y-1);
+                        labirinto.cancellaCarattere(cx,cy-1);
                         break;
                     case 'a':
-                        labirinto.distruggiMura(x-1,y);
+                        labirinto.cancellaCarattere(cx-1,cy);
                         break;
                     case 's':
-                        labirinto.distruggiMura(x,y+1);
+                        labirinto.cancellaCarattere(cx,cy+1);
                         break;
                     case 'd':
-                        labirinto.distruggiMura(x+1,y);
+                        labirinto.cancellaCarattere(cx+1,cy);
                         break;
                 }
                 break;
@@ -34,82 +37,82 @@ public class Gadget extends Oggetti{
                 ris = input.leggiInput();
                 switch(ris){
                     case 'w':
-                        if(labirinto.isMuro(x,y-2) || (y-2)>labirinto.getRighe()){
+                        if(labirinto.isMuro(cx,cy-2) || (cy-2)>labirinto.getRighe()){
                             System.out.println("Impossibile saltare... gadget sprecato!!");
                         }
                         else{
-                            criminal.setXY(x, y-2);
+                            criminal.setXY(cx, cy-2);
                         }
                         break;
                     case 'a':
-                        if(labirinto.isMuro(x-2,y) || (x-2)>labirinto.getColonne()){
+                        if(labirinto.isMuro(cx-2,cy) || (cx-2)>labirinto.getColonne()){
                             System.out.println("Impossibile saltare... gadget sprecato!!");
                         }
                         else{
-                            criminal.setXY(x-2, y);
+                            criminal.setXY(cx-2, cy);
                         }
                         break;
                     case 's':
-                        if(labirinto.isMuro(x,y+2) || (y+2)>labirinto.getRighe()){
+                        if(labirinto.isMuro(cx,cy+2) || (cy+2)>labirinto.getRighe()){
                             System.out.println("Impossibile saltare... gadget sprecato!!");
                         }
                         else{
-                            criminal.setXY(x, y+2);
+                            criminal.setXY(cx, cy+2);
                         }
                         break;
                     case 'd':
-                        if(labirinto.isMuro(x+2,y) || (x+2)>labirinto.getColonne()){
+                        if(labirinto.isMuro(cx+2,cy) || (cx+2)>labirinto.getColonne()){
                             System.out.println("Impossibile saltare... gadget sprecato!!");
                         }
                         else{
-                            criminal.setXY(x+2, y);
+                            criminal.setXY(cx+2, cy);
                         }
                         break;
                 }
                 break;
             case "muove diagonale":
                 System.out.println("Seleziona una direzione in cui muoverti(Q, E, Z, C): ");
-                ris = input.leggiInput('d');
+                ris = input.leggiInputDiagonale();
                 switch(ris){
                     case 'q':
-                        if(labirinto.isMuro(x-1,y-1)){
+                        if(labirinto.isMuro(cx-1,cy-1)){
                             System.out.println("Impossibile saltare... gadget sprecato!!");
                         }
                         else{
-                            criminal.setXY(x-1, y-1);
+                            criminal.setXY(cx-1, cy-1);
                         }
                         break;
                     case 'e':
-                        if(labirinto.isMuro(x+1,y-1)){
+                        if(labirinto.isMuro(cx+1,cy-1)){
                             System.out.println("Impossibile saltare... gadget sprecato!!");
                         }
                         else{
-                            criminal.setXY(x+1, y-1);
+                            criminal.setXY(cx+1, cy-1);
                         }
                         break;
                     case 'z':
-                        if(labirinto.isMuro(x-1,y+1)){
+                        if(labirinto.isMuro(cx-1,cy+1)){
                             System.out.println("Impossibile saltare... gadget sprecato!!");
                         }
                         else{
-                            criminal.setXY(x-1, y+1);
+                            criminal.setXY(cx-1, cy+1);
                         }
                         break;
                     case 'c':
-                        if(labirinto.isMuro(x+1,y+1)){
+                        if(labirinto.isMuro(cx+1,cy+1)){
                             System.out.println("Impossibile saltare... gadget sprecato!!");
                         }
                         else{
-                            criminal.setXY(x+1, y+1);
+                            criminal.setXY(cx+1, cy+1);
                         }
                         break;
                 }
                 break;
             case "bomba":
-                labirinto.distruggiMura(x+1,y);
-                labirinto.distruggiMura(x-1,y);
-                labirinto.distruggiMura(x,y+1);
-                labirinto.distruggiMura(x,y-1);
+                labirinto.cancellaCarattere(cx+1,cy);
+                labirinto.cancellaCarattere(cx-1,cy);
+                labirinto.cancellaCarattere(cx,cy+1);
+                labirinto.cancellaCarattere(cx,cy-1);
                 break;
             case "avvicina uscita":
                 labirinto.avvicinaUscita(criminal.getX(), criminal.getY(), labirinto.getUscitaX(), labirinto.getUscitaY());
@@ -117,6 +120,9 @@ public class Gadget extends Oggetti{
         }
     }
 
+    public int getTasto(){
+        return tasto;
+    }
 
 
     /*idee per gadget:

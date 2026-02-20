@@ -41,12 +41,16 @@ public class ConsoleUI {
             move = Character.toLowerCase(input.next().charAt(0));
             if (move == 'w' || move == 'a' || move == 's' || move == 'd') {
                 ok = true;
-            } else System.out.print("Mossa non valida, riprova:");
+            }
+            else if (move == '1' || move == '2' || move == '3' || move == '4' || move == '5') {
+                ok = true;
+            }
+            else System.out.print("Mossa non valida, riprova:");
         } while (!ok);
         return move;
     }
 
-    public char leggiInput(char diagonale) {
+    public char leggiInputDiagonale() {
         boolean ok;
         char move;
         do {
@@ -59,7 +63,7 @@ public class ConsoleUI {
         return move;
     }
 
-    public int leggiInput(int livelloSalvato) {
+    public int leggiInputLivelloSalvato(int livelloSalvato) {
         boolean ok;
         int risposta;
         do {

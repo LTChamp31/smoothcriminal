@@ -3,7 +3,7 @@ package it.volta.smoothcriminal.model;
 import it.volta.smoothcriminal.core.Entita;
 
 public class Criminal extends Entita{
-
+    private boolean gadgetCriminal = false;
     public Criminal(int x, int y){
         super(x,y);
     }
@@ -51,5 +51,35 @@ public class Criminal extends Entita{
             if(g!=null) System.out.println(g.getNome());
         }
         contatore++;
+        gadgetCriminal = true;
+    }
+
+    public void rimuoviGadget(Gadget gadget){
+        for(int i=0;i<3;i++){
+            if(gadgetUtilizzabili[i]!=null && gadgetUtilizzabili[i].getNome()==gadget.getNome()){
+                gadgetUtilizzabili[i] = null;
+                contatore--;
+            }
+        }
+        if(contatore==0){
+            gadgetCriminal = false;
+        }
+    }
+
+    public void tastiGadget(){
+        for(Gadget g : gadgetUtilizzabili){
+            if(g!=null){
+                System.out.print(g.getTasto() + " ");
+            }
+        }
+        System.out.println();
+    }
+
+    public Gadget[] getGadgetUtilizzabili(){
+        return gadgetUtilizzabili;
+    }
+
+    public boolean getGadgetCriminal(){
+        return gadgetCriminal;
     }
 }

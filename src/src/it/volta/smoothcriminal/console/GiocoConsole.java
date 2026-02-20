@@ -39,7 +39,7 @@ public class GiocoConsole extends Videogioco {
         int livelloSalvato = caricaProgresso(nome);
         int livelloCorrente = 1;
         if (livelloSalvato > 1) {
-            int scelta = ui.leggiInput(livelloSalvato);
+            int scelta = ui.leggiInputLivelloSalvato(livelloSalvato);
             if (scelta == 1) {
                 livelloCorrente = livelloSalvato;
             } else {
@@ -53,7 +53,7 @@ public class GiocoConsole extends Videogioco {
             int[] indice = new int[1];
             indice[0] = livelloCorrente - 1;
 
-            this.labirinto = loader.loadStoria(indice);
+            this.labirinto = loader.loadLevel(indice, 'S');
             this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
             this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
             loop.run(labirinto, criminal, this::controllaVittoria, trappole);
@@ -190,7 +190,7 @@ public class GiocoConsole extends Videogioco {
 
         int[] indice = new int[1];
 
-        this.labirinto = loader.loadTorneo(indice);
+        this.labirinto = loader.loadLevel(indice, 'T');
         this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
         this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
 
@@ -257,7 +257,7 @@ public class GiocoConsole extends Videogioco {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Errore nel caricamento del livello");
         }
 
         return mappa;
@@ -273,7 +273,6 @@ public class GiocoConsole extends Videogioco {
         boolean trovato = false;
         boolean aggiornato = false;
 
-        // 1. Lettura: Carichiamo tutto il file in una lista
         if (fileRecord.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(fileRecord))) {
                 while ((linea = reader.readLine()) != null) {
@@ -282,18 +281,16 @@ public class GiocoConsole extends Videogioco {
                         String nomeEsistente = parti[0];
                         long tempoEsistente = Long.parseLong(parti[1]);
 
-                        // Controlliamo se è il giocatore attuale
                         if (nomeEsistente.equalsIgnoreCase(nome)) {
                             trovato = true;
-                            // Aggiorniamo la riga solo se il nuovo tempo è migliore
                             if (secondi < tempoEsistente) {
                                 righeClassifica.add(nome + ":" + secondi);
                                 aggiornato = true;
                             } else {
-                                righeClassifica.add(linea); // Teniamo il vecchio record
+                                righeClassifica.add(linea);
                             }
                         } else {
-                            righeClassifica.add(linea); // Riga di un altro giocatore
+                            righeClassifica.add(linea);
                         }
                     }
                 }
@@ -302,13 +299,11 @@ public class GiocoConsole extends Videogioco {
             }
         }
 
-        // 2. Se il giocatore non era nel file, lo aggiungiamo come nuovo record
         if (!trovato) {
             righeClassifica.add(nome + ":" + secondi);
             aggiornato = true;
         }
 
-        // 3. Scrittura: Se c'è stato un aggiornamento o un nuovo inserimento, riscriviamo il file
         if (aggiornato) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileRecord))) {
                 for (String riga : righeClassifica) {

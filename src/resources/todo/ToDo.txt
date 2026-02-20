@@ -1,14 +1,15 @@
 ===16/02/2026===
 1. far funzionare le trappole 18/02/26
-2. far funzionare i gadget
+2. far funzionare i gadget 20/02/2026🏆🏆🏆
 3. fare le mappe per storia 19/02/2026
 4. fare le mappe per torneo 17/02/26
 5. fare l'algoritmo di generazione del labirinto 15/02/26
 6. scrittura e lettura da file per torneo 17/02/26
 7. aggiungere entità
 8. uccidersi
-9. saltare dal tetto
+9. salire al tetto 19/11/2025
 10.buttarsi in mare
 11. salvarsi record di torneo 19/02/2026
 12. salvarsi salvataggi storia 19/02/2026
 13. far funzionare sposta uscita
+14. LOGIN
