@@ -2,11 +2,14 @@ package it.volta.smoothcriminal.model;
 import it.volta.smoothcriminal.console.ConsoleUI;
 
 public class Gadget extends Oggetti{
-    int tasto;
+    private int tasto;
+    private boolean raccolto = false;
     private ConsoleUI input = new ConsoleUI();
+
     public Gadget(String nome, int x, int y, Labirinto labirinto, Criminal criminal, int tasto) {
         super(labirinto, criminal, x, y, nome);
         this.tasto = tasto;
+        raccolto = false;
     }
 
     public void usa(){
@@ -123,6 +126,8 @@ public class Gadget extends Oggetti{
     public int getTasto(){
         return tasto;
     }
+    public boolean getRaccolto(){return raccolto;}
+    public void setRaccolto(boolean raccolto){this.raccolto = raccolto;}
 
 
     /*idee per gadget:

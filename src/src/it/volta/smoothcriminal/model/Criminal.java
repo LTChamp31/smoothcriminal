@@ -4,12 +4,12 @@ import it.volta.smoothcriminal.core.Entita;
 
 public class Criminal extends Entita{
     private boolean gadgetCriminal = false;
-    public Criminal(int x, int y){
-        super(x,y);
-    }
     private Gadget[] gadgetUtilizzabili = new Gadget[3];
     private int contatore = 0;
 
+    public Criminal(int x, int y){
+        super(x,y);
+    }
     public boolean muovi(char dir, Labirinto mappa){
         //1 = sopra, 2 = sotto, 3 = destra, 4 = sinistra
 
@@ -66,7 +66,7 @@ public class Criminal extends Entita{
         }
     }
 
-    public void tastiGadget(){
+    public void mostraTastiGadget(){
         for(Gadget g : gadgetUtilizzabili){
             if(g!=null){
                 System.out.print(g.getTasto() + " ");

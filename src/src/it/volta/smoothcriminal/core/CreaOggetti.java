@@ -25,7 +25,7 @@ public class CreaOggetti {
     }
 
     public static Gadget[] creaGadget(Labirinto labirinto, Criminal criminal){
-        int[][] xyGadgets = labirinto.getGadgets();
+        int[][] xyGadgets = labirinto.getGadget();
         Gadget[] gadgets = new Gadget[5];
         int contaGadget=0;
         for (int i=0; i<=4; i++) {

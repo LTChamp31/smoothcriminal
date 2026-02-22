@@ -23,7 +23,7 @@ public class GeneraLabirinto {
 
     }
 
-    public List<List<Character>> generateLabirinto(){
+    public List<List<Character>> creaLabirinto(){
         crearePassagio(1,1);
         matrice[altezza-2][larghezza-1] = 'U';
         if (matrice[altezza-2][larghezza-2] == '█') {

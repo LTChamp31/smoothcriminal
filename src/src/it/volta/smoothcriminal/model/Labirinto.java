@@ -1,5 +1,4 @@
 package it.volta.smoothcriminal.model;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Labirinto {
@@ -8,11 +7,11 @@ public class Labirinto {
     private int uscitaY, uscitaX;
     private List<List<Character>> mat;
     private List<Coordinate>[] xyTrappole;
-    private int[][] xyGadgets;
+    private int[][] xyGadget;
     private List<Nemici> nemici;
 
 
-    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int uscitaY, List<Coordinate>[] xyTrappole, int[][] xyGadgets, List<Nemici> nemici) {
+    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int uscitaY, List<Coordinate>[] xyTrappole, int[][] xyGadget, List<Nemici> nemici) {
         this.mat = mat;
         this.inizioX = inizioX;
         this.inizioY = inizioY;
@@ -20,7 +19,7 @@ public class Labirinto {
         this.uscitaX = uscitaX;
         this.uscitaY = uscitaY;
         this.xyTrappole = xyTrappole;
-        this.xyGadgets = xyGadgets;
+        this.xyGadget = xyGadget;
         this.nemici = nemici;
     }
 
@@ -86,15 +85,12 @@ public class Labirinto {
 
     public int getUscitaY() { return uscitaY; }
 
+    public int[][] getGadget(){return xyGadget;}
+
     public List<Coordinate>[] getTrappole() {
         return xyTrappole;
     }
 
-    public int[][] getGadgets() {
-        return xyGadgets;
-    }
-
-    //Dopo
     public int getColonne() {return colonne;}
 
     public int getRighe() {return mat.size();}

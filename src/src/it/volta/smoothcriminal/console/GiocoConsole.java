@@ -5,17 +5,16 @@ import it.volta.smoothcriminal.core.Videogioco;
 import it.volta.smoothcriminal.model.*;
 import java.util.*;
 import java.io.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class GiocoConsole extends Videogioco {
-    ConsoleUI ui;
-    GameLoop loop;
-    LevelLoader loader = new LevelLoader();
-    List<Trappole> trappole;
-    Scanner input = new Scanner(System.in);
+    private ConsoleUI ui;
+    private GameLoop loop;
+    private LevelLoader loader = new LevelLoader();
+    private List<Trappole> trappole;
+    private Scanner input = new Scanner(System.in);
 
     public GiocoConsole(Criminal criminal, Labirinto labirinto) {
         super(criminal, labirinto);
@@ -93,7 +92,7 @@ public class GiocoConsole extends Videogioco {
 
     private int caricaProgresso(String nome) {
 
-        File file = new File("src/resources/Records/salvataggi_storia.txt");
+        File file = new File("src/resources/Records/salvataggiStoria.txt");
 
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -119,7 +118,7 @@ public class GiocoConsole extends Videogioco {
 
 
     public void salvaProgresso(String nome, int livelloRaggiunto) {
-        File fileSalvataggi = new File("src/resources/Records/salvataggi_storia.txt");
+        File fileSalvataggi = new File("src/resources/Records/salvataggiStoria.txt");
         List<String> righe = new ArrayList<>();
         boolean trovato = false;
         boolean aggiornato = false;
@@ -212,7 +211,7 @@ public class GiocoConsole extends Videogioco {
 
         int contatore = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/Records/salvataggi_storia.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/Records/salvataggiStoria.txt"))) {
 
             String riga;
             while ((riga = br.readLine()) != null) {
@@ -318,8 +317,4 @@ public class GiocoConsole extends Videogioco {
             System.out.println("Nessun miglioramento: record non aggiornato.");
         }
     }
-
-
-
-
 }

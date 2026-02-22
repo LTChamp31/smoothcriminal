@@ -9,7 +9,7 @@ import it.volta.smoothcriminal.model.Trappole;
 import java.util.List;
 
 public class ControllaOggetti {
-    CreaOggetti creaOggetti;
+    private CreaOggetti creaOggetti;
     private List<Trappole> trappole;
     private boolean gadgetCriminal = false;
 
@@ -28,10 +28,11 @@ public class ControllaOggetti {
 
     public void controllaGadget(int x, int y, Criminal criminal, Gadget[] tuttiGadget, Labirinto labirinto){
         for(Gadget g : tuttiGadget){
-            if(g!=null && g.getX()==y && g.getY()==x){
+            if(g!=null && g.getRaccolto()==false && g.getX()==y && g.getY()==x){
                 gadgetCriminal = true;
                 criminal.aggiungiGadget(g);
                 labirinto.cancellaCarattere(x,y);
+                g.setRaccolto(true);
             }
         }
     }

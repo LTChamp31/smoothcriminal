@@ -6,7 +6,7 @@ import it.volta.smoothcriminal.model.Labirinto;
 import java.util.Scanner;
 
 public class ConsoleUI {
-    Scanner input = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
 
     public ConsoleUI() {
     }

@@ -10,7 +10,6 @@ public class Main {
         Scanner input = new Scanner(System.in);
         int ris;
 
-
         System.out.println("Giocare su console -1 | Giocare su GUI -2");
         do {
             ris = input.nextInt();
@@ -18,7 +17,5 @@ public class Main {
         if (ris == 1) {
             gioco.avvia();
         }
-
-
     }
 }
