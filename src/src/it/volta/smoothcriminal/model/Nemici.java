@@ -13,18 +13,29 @@ public class Nemici extends Entita {
         criminalX = criminal.getX();
         criminalY = criminal.getY();
 
+        mappa.setCarattere(x, y, ' ');
+
         int stepX = Integer.compare(criminalX, x);
         int stepY = Integer.compare(criminalY, y);
 
-        if (mappa.isMuro(x+=stepX, y)) {
-            if (mappa.isMuro(x, y+=stepY)) {
-                if (mappa.isMuro(x-=stepX, y)) {
-                  setXY(x, y-=stepY);
-                }
-                else setXY(x-=stepX, y);
-            } else setXY(x, y+=stepY);
-        } else setXY(x+=stepX, y);
+        int distanceX = Math.abs(criminalX - x);
+        int distanceY = Math.abs(criminalY - y);
 
+        if (distanceX > distanceY) {
+            if (stepX != 0 && !mappa.isMuro(x + stepX, y)) {
+                setXY(x + stepX, y);
+            } else if (stepY != 0 && !mappa.isMuro(x, y + stepY)) {
+                setXY(x, y + stepY);
+            }
+        } else {
+            if (stepY != 0 && !mappa.isMuro(x, y + stepY)) {
+                setXY(x, y + stepY);
+            } else if (stepX != 0 && !mappa.isMuro(x + stepX, y)) {
+                setXY(x + stepX, y);
+            }
+        }
+
+        mappa.setCarattere(x, y, 'Ⓝ');
 
 
     }

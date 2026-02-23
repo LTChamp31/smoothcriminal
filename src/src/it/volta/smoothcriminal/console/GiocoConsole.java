@@ -52,14 +52,18 @@ public class GiocoConsole extends Videogioco {
             int[] indice = new int[1];
             indice[0] = livelloCorrente - 1;
 
+            this.loader = new LevelLoader();
             this.labirinto = loader.loadLevel(indice, 'S');
             this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
             this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
-            loop.run(labirinto, criminal, this::controllaVittoria, trappole);
+            loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappole);
 
             if (controllaVittoria()) {
                 livelloCorrente++;
                 salvaProgresso(nome, livelloCorrente);
+            }
+            else if (controllaPerdita()) {
+                System.out.println("Hai PERSO!!");
             }
         }
 
@@ -174,13 +178,14 @@ public class GiocoConsole extends Videogioco {
 
 
     public void avviaAllenamento() {
+        this.loader = new LevelLoader();
         this.labirinto = loader.loadLevel();
         this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
         this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
 
 
         long inizio = System.currentTimeMillis();
-        loop.run(labirinto, criminal, this::controllaVittoria, trappole);
+        loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappole);
         long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;
     }
@@ -189,6 +194,7 @@ public class GiocoConsole extends Videogioco {
 
         int[] indice = new int[1];
 
+        this.loader = new LevelLoader();
         this.labirinto = loader.loadLevel(indice, 'T');
         this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
         this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
@@ -197,7 +203,7 @@ public class GiocoConsole extends Videogioco {
 
         long inizio = System.currentTimeMillis();
 
-        loop.run(labirinto, criminal, this::controllaVittoria, trappole);
+        loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappole);
 
         long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;

@@ -54,6 +54,8 @@ public class Labirinto {
         return map.toString();
     }
 
+    public void setCarattere(int x, int y, char c) { mat.get(y).set(x, c); }
+
     public void cancellaCarattere(int x, int y){
         mat.get(y).set(x, ' ');
     }
@@ -95,6 +97,6 @@ public class Labirinto {
 
     public int getRighe() {return mat.size();}
 
-
+    public List<Nemici> getNemici() { return nemici; }
 
 }

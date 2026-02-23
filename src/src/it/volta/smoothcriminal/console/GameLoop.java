@@ -18,11 +18,11 @@ public class GameLoop {
         this.ui = ui;
     }
 
-    public void run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, List<Trappole> trappole){
+    public void run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trappole> trappole){
         Gadget[] tuttiGadget = CreaOggetti.creaGadget(labirinto, criminal);
         ui.render(labirinto, criminal);
-        controllaOggetti = new ControllaOggetti(trappole);
-        while (!vittoria.getAsBoolean()) {
+        controllaOggetti = new ControllaOggetti(criminal, trappole, criminal.getX(), criminal.getY());
+        while (!vittoria.getAsBoolean() && !perdita.getAsBoolean()) {
             if(criminal.getGadgetCriminal()){
                 System.out.println("Hai a disposizione dei gadget!!");
                 System.out.print("Premi: ");
@@ -32,8 +32,8 @@ public class GameLoop {
             move = ui.leggiInput();
             if (move == 'w' || move == 'a' || move == 's' || move == 'd') {
                 criminal.muovi(move, labirinto);
-                controllaOggetti.controllaTrappole(criminal.getX(), criminal.getY());
-                controllaOggetti.controllaGadget(criminal.getX(), criminal.getY(), criminal, tuttiGadget, labirinto);
+                controllaOggetti.controllaTrappole();
+                controllaOggetti.controllaGadget(tuttiGadget, labirinto);
             }
             else{
                 int tasto = move - '0';
