@@ -3,6 +3,7 @@ package it.volta.smoothcriminal.console;
 import it.volta.smoothcriminal.model.Criminal;
 import it.volta.smoothcriminal.model.Labirinto;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class ConsoleUI {
@@ -10,6 +11,7 @@ public class ConsoleUI {
 
     public ConsoleUI() {
     }
+
     public String scegliNome() {
         System.out.println("Inserisci il tuo nome:");
         input.nextLine();
@@ -18,10 +20,10 @@ public class ConsoleUI {
 
     public int scegliModalita() {
         int ris;
-        System.out.println("1. Storia - 2. Allenamento - 3. Torneo ");
+        stampaMenu();
         do {
             ris = input.nextInt();
-        } while (ris != 1 && ris != 2 && ris != 3);
+        } while (ris != 1 && ris != 2 && ris != 3 && ris !=4 && ris != 5);
         return ris;
     }
 
@@ -43,6 +45,9 @@ public class ConsoleUI {
                 ok = true;
             }
             else if (move == '1' || move == '2' || move == '3' || move == '4' || move == '5') {
+                ok = true;
+            }
+            else if (move == 'x'){
                 ok = true;
             }
             else System.out.print("Mossa non valida, riprova:");
@@ -77,6 +82,19 @@ public class ConsoleUI {
             } else System.out.print("risposta non valida, riprova:");
         } while (!ok);
         return risposta;
+    }
+
+    public void stampaMenu() {
+        File file = new File("src/resources/schermate/home.txt");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                System.out.println(linea);
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura del menu.");
+        }
     }
 
 

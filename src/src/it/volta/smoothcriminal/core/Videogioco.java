@@ -44,6 +44,6 @@ public abstract class Videogioco {
         return false;
     }
 
-    public abstract void avvia();
+    public abstract boolean avvia();
 
 }

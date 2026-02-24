@@ -13,15 +13,17 @@ public class GameLoop {
     private char move;
     private ConsoleUI ui;
     private ControllaOggetti controllaOggetti;
+    private GiocoConsole giocoConsole;
 
-    public GameLoop(ConsoleUI ui) {
+    public GameLoop(ConsoleUI ui, GiocoConsole giocoConsole) {
         this.ui = ui;
+        this.giocoConsole = giocoConsole;
     }
 
     public void run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trappole> trappole){
         Gadget[] tuttiGadget = CreaOggetti.creaGadget(labirinto, criminal);
         ui.render(labirinto, criminal);
-        controllaOggetti = new ControllaOggetti(/*criminal, */trappole/*, criminal.getX(), criminal.getY()*/);
+        controllaOggetti = new ControllaOggetti(trappole);
         while (!vittoria.getAsBoolean() && !perdita.getAsBoolean()) {
             if(criminal.getGadgetCriminal()){
                 System.out.println("Hai a disposizione dei gadget!!");
@@ -30,6 +32,9 @@ public class GameLoop {
             }
             System.out.print("Muoviti: W A S D ");
             move = ui.leggiInput();
+            if (move == 'x'){
+                giocoConsole.avvia();
+            }
             if (move == 'w' || move == 'a' || move == 's' || move == 'd') {
                 criminal.muovi(move, labirinto);
                 controllaOggetti.controllaTrappole(criminal.getX(), criminal.getY());

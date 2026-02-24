@@ -9,13 +9,17 @@ public class Main {
         GiocoConsole gioco = new GiocoConsole(null, null);
         Scanner input = new Scanner(System.in);
         int ris;
+        boolean continua = true;
 
         System.out.println("Giocare su console -1 | Giocare su GUI -2");
         do {
             ris = input.nextInt();
         } while (ris != 1 && ris != 2);
         if (ris == 1) {
-            gioco.avvia();
+            while(continua){
+                continua = gioco.avvia();
+            }
+
         }
     }
 }

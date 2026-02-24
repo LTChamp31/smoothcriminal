@@ -6,17 +6,10 @@ import it.volta.smoothcriminal.model.*;
 import java.util.List;
 
 public class ControllaOggetti {
-    private CreaOggetti creaOggetti;
     private List<Trappole> trappole;
-    //private Criminal criminal;
-    //private int criminalX, criminalY;
 
-    public ControllaOggetti(/*Criminal criminal,*/ List<Trappole> trappole/*, int criminalX, int criminalY*/)
-    {
-        //this.criminal = criminal;
+    public ControllaOggetti(List<Trappole> trappole) {
         this.trappole = trappole;
-        //this.criminalX = criminalX;
-        //this.criminalY = criminalY;
     }
 
     public void controllaTrappole(int x, int y) {

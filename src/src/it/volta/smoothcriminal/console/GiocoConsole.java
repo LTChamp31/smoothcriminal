@@ -19,17 +19,28 @@ public class GiocoConsole extends Videogioco {
     public GiocoConsole(Criminal criminal, Labirinto labirinto) {
         super(criminal, labirinto);
         this.ui = new ConsoleUI();
-        this.loop = new GameLoop(ui);
+        this.loop = new GameLoop(ui, this);
     }
 
-    public void avvia() {
+    public boolean avvia() {
         int ris = ui.scegliModalita();
         if (ris == 1) {
             avviaStoria();
+            return true;
         } else if (ris == 2) {
             avviaAllenamento();
-        } else{
+            return true;
+        } else if (ris == 3){
             avviaTorneo();
+            return true;
+        }
+        else if (ris == 4){
+            //classifica
+            return true;
+        }
+        else{
+            System.out.println("Ciao Ciao");
+            return false;
         }
     }
 
@@ -57,13 +68,18 @@ public class GiocoConsole extends Videogioco {
             this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
             this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
             loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappole);
-
             if (controllaVittoria()) {
                 livelloCorrente++;
                 salvaProgresso(nome, livelloCorrente);
             }
             else if (controllaPerdita()) {
-                System.out.println("Hai PERSO!!");
+                mostraSconfitta();
+                try {
+                    System.in.read();
+                } catch (IOException e) {
+                    System.out.println("Errore lettura tasto");
+                }
+                avvia();
             }
         }
 
@@ -189,6 +205,12 @@ public class GiocoConsole extends Videogioco {
         long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;
         System.out.println("Tempo completamento: " + secondi + " secondi");
+        System.out.println("Premi INVIO per tornare al menu...");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            System.out.println("Errore lettura tasto");
+        }
     }
 
     public void avviaTorneo() {
@@ -212,68 +234,17 @@ public class GiocoConsole extends Videogioco {
         salvaRecord(nome, secondi, indice[0] + 1);
 
         System.out.println("Tempo completamento: " + secondi + " secondi");
-    }
-
-    private int contaLivelli() {
-
-        int contatore = 0;
-
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/record/salvataggiStoria.txt"))) {
-
-            String riga;
-            while ((riga = br.readLine()) != null) {
-                if (riga.equals("---")) {
-                    contatore++;
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println("Errore nella lettura del file");
+        System.out.println("Premi INVIO per tornare al menu...");
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            System.out.println("Errore lettura tasto");
         }
-
-        return contatore;
     }
-
-    private List<String> caricaLivello(int numeroLivello) {
-
-        List<String> mappa = new ArrayList<>();
-        int contatore = 0;
-        boolean leggendo = false;
-
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/levels/livelliStoria.txt"))) {
-
-            String riga;
-
-            while ((riga = br.readLine()) != null) {
-
-                if (riga.equals("---")) {
-                    contatore++;
-
-                    if (contatore == numeroLivello) {
-                        leggendo = true;
-                        continue;
-                    } else if (contatore > numeroLivello) {
-                        break;
-                    }
-                }
-
-                if (leggendo) {
-                    mappa.add(riga);
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println("Errore nel caricamento del livello");
-        }
-
-        return mappa;
-    }
-
-
 
     public void salvaRecord(String nome, long secondi, int mappa) {
         String pathCartella = "src/resources/record";
-        File fileRecord = new File("src/resources/record", "recordMappa_"+mappa+".txt");
+        File fileRecord = new File("src/resources/record", "recordMappa_" + mappa + ".txt");
         String linea;
         List<String> righeClassifica = new ArrayList<>();
         boolean trovato = false;
@@ -322,6 +293,19 @@ public class GiocoConsole extends Videogioco {
             }
         } else {
             System.out.println("Nessun miglioramento: record non aggiornato.");
+        }
+    }
+
+    public void mostraSconfitta(){
+        File file = new File("src/resources/schermate/Sconfitta.txt");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                System.out.println(linea);
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura del menu.");
         }
     }
 }
