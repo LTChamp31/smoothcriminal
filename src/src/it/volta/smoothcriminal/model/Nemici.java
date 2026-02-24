@@ -36,7 +36,5 @@ public class Nemici extends Entita {
         }
 
         mappa.setCarattere(x, y, 'Ⓝ');
-
-
     }
 }

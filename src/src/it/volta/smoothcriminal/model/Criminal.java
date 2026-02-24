@@ -56,7 +56,7 @@ public class Criminal extends Entita{
 
     public void rimuoviGadget(Gadget gadget){
         for(int i=0;i<3;i++){
-            if(gadgetUtilizzabili[i]!=null && gadgetUtilizzabili[i].getNome()==gadget.getNome()){
+            if(gadgetUtilizzabili[i]!=null && gadgetUtilizzabili[i].getNome().equals(gadget.getNome())){
                 gadgetUtilizzabili[i] = null;
                 contatore--;
             }
@@ -81,5 +81,9 @@ public class Criminal extends Entita{
 
     public boolean getGadgetCriminal(){
         return gadgetCriminal;
+    }
+
+    public void setGadgetCriminal(boolean gadgetCriminal){
+        this.gadgetCriminal = gadgetCriminal;
     }
 }

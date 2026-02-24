@@ -33,7 +33,7 @@ public abstract class Videogioco {
         for (int i=0; i<nemici.size(); i++) {
             nx = nemici.get(i).getX();
             ny = nemici.get(i).getY();
-            System.out.println(nx + " " + ny + "\n" + cx + " " + cy);
+            //System.out.println(nx + " " + ny + "\n" + cx + " " + cy);
             if(nx == cx && ny == cy) {
                 return true;
             } else {

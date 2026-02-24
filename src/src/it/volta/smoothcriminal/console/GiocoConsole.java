@@ -28,7 +28,7 @@ public class GiocoConsole extends Videogioco {
             avviaStoria();
         } else if (ris == 2) {
             avviaAllenamento();
-        } else {
+        } else{
             avviaTorneo();
         }
     }
@@ -96,7 +96,7 @@ public class GiocoConsole extends Videogioco {
 
     private int caricaProgresso(String nome) {
 
-        File file = new File("src/resources/Records/salvataggiStoria.txt");
+        File file = new File("src/resources/record/salvataggiStoria.txt");
 
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -122,7 +122,7 @@ public class GiocoConsole extends Videogioco {
 
 
     public void salvaProgresso(String nome, int livelloRaggiunto) {
-        File fileSalvataggi = new File("src/resources/Records/salvataggiStoria.txt");
+        File fileSalvataggi = new File("src/resources/record/salvataggiStoria.txt");
         List<String> righe = new ArrayList<>();
         boolean trovato = false;
         boolean aggiornato = false;
@@ -188,6 +188,7 @@ public class GiocoConsole extends Videogioco {
         loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappole);
         long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;
+        System.out.println("Tempo completamento: " + secondi + " secondi");
     }
 
     public void avviaTorneo() {
@@ -217,7 +218,7 @@ public class GiocoConsole extends Videogioco {
 
         int contatore = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/Records/salvataggiStoria.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/resources/record/salvataggiStoria.txt"))) {
 
             String riga;
             while ((riga = br.readLine()) != null) {
@@ -271,8 +272,8 @@ public class GiocoConsole extends Videogioco {
 
 
     public void salvaRecord(String nome, long secondi, int mappa) {
-        String pathCartella = "src/resources/Records";
-        File fileRecord = new File("src/resources/Records", "recordMappa_"+mappa+".txt");
+        String pathCartella = "src/resources/record";
+        File fileRecord = new File("src/resources/record", "recordMappa_"+mappa+".txt");
         String linea;
         List<String> righeClassifica = new ArrayList<>();
         boolean trovato = false;
