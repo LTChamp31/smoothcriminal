@@ -11,8 +11,6 @@ public class Criminal extends Entita{
         super(x,y);
     }
     public boolean muovi(char dir, Labirinto mappa){
-        //1 = sopra, 2 = sotto, 3 = destra, 4 = sinistra
-
         switch(Character.toLowerCase(dir)){
             case 'w':
                 if(mappa.isMuro(x, y-1)){
@@ -83,7 +81,4 @@ public class Criminal extends Entita{
         return gadgetCriminal;
     }
 
-    public void setGadgetCriminal(boolean gadgetCriminal){
-        this.gadgetCriminal = gadgetCriminal;
-    }
 }

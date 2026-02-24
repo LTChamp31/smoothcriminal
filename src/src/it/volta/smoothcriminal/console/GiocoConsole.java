@@ -14,7 +14,6 @@ public class GiocoConsole extends Videogioco {
     private GameLoop loop;
     private LevelLoader loader = new LevelLoader();
     private List<Trappole> trappole;
-    private Scanner input = new Scanner(System.in);
 
     public GiocoConsole(Criminal criminal, Labirinto labirinto) {
         super(criminal, labirinto);
@@ -91,7 +90,7 @@ public class GiocoConsole extends Videogioco {
         int contatore = 0;
 
         try (BufferedReader br = new BufferedReader(
-                new FileReader("src/resources/levels/livelliStoria.txt"))) {
+                new FileReader("src/resources/livelli/livelliStoria.txt"))) {
 
             String riga;
 
@@ -243,7 +242,6 @@ public class GiocoConsole extends Videogioco {
     }
 
     public void salvaRecord(String nome, long secondi, int mappa) {
-        String pathCartella = "src/resources/record";
         File fileRecord = new File("src/resources/record", "recordMappa_" + mappa + ".txt");
         String linea;
         List<String> righeClassifica = new ArrayList<>();

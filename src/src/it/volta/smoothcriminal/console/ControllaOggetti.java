@@ -1,6 +1,5 @@
 package it.volta.smoothcriminal.console;
 
-import it.volta.smoothcriminal.core.CreaOggetti;
 import it.volta.smoothcriminal.model.*;
 
 import java.util.List;
@@ -18,23 +17,6 @@ public class ControllaOggetti {
                 trappole.get(i).usa();
             }
         }
-    }
-
-    public boolean controllaNemici(Labirinto labirinto, Criminal criminal) {
-        int nx, ny;
-        List<Nemici> nemici = labirinto.getNemici();
-        for (int i=0; i<nemici.size(); i++) {
-            nx = nemici.get(i).getX();
-            ny = nemici.get(i).getY();
-
-            if(nx == criminal.getX() && ny == criminal.getY()) {
-                return true;
-            } else {
-                nemici.get(i).muovi(labirinto, criminal);
-            }
-        }
-
-        return false;
     }
 
     public void controllaGadget(int x, int y, Gadget[] tuttiGadget, Labirinto labirinto, Criminal criminal){

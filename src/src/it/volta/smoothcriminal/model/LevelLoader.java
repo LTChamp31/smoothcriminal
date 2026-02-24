@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 public class LevelLoader {
-    private int righe, colonne, inizioX=0, inizioY=0, uscitaX, uscitaY, nTrappole=0;
+    private int righe, colonne, inizioX=0, inizioY=0, uscitaX, uscitaY;
     private List<List<Character>> mat = new ArrayList<>();
     private List<Coordinate>[] xyTrappole = new ArrayList[3];
     private int[][] xyGadget = new int[5][2];
@@ -41,7 +41,7 @@ public class LevelLoader {
         List<String> tutteLeMappe = new ArrayList<>();
         int indiceMappa;
         if (tipo == 'S') {
-            tutteLeMappe = leggiFile("src/resources/levels/livelliStoria.txt");
+            tutteLeMappe = leggiFile("src/resources/livelli/livelliStoria.txt");
             if (indiceScelto[0] >= 0 && indiceScelto[0] < tutteLeMappe.size()) {
                 indiceMappa = indiceScelto[0];
             } else {
@@ -49,7 +49,7 @@ public class LevelLoader {
             }
             indiceScelto[0] = indiceMappa;
         } else {
-            tutteLeMappe = leggiFile("src/resources/levels/livelliTorneo.txt");
+            tutteLeMappe = leggiFile("src/resources/livelli/livelliTorneo.txt");
             Random rand = new Random();
             indiceMappa = rand.nextInt(tutteLeMappe.size());
             indiceScelto[0] = indiceMappa;

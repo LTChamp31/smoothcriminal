@@ -71,8 +71,8 @@ public class Labirinto {
         int stepX = Integer.compare(xc, xu);
         int stepY = Integer.compare(yc, yu);
 
-        uscitaX += stepX;
-        uscitaY += stepY;
+        mat.get(this.uscitaY).set(this.uscitaX, ' ');
+        mat.get(this.uscitaY + stepX).set(this.uscitaX + stepY, 'U');
     }
 
     public int getInizioX() {
