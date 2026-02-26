@@ -1,8 +1,8 @@
-1. far funzionare le trappola 18/02/26
+1. far funzionare le trap 18/02/26
 2. far funzionare i gadget 20/02/2026🏆🏆🏆
 3. fare le mappe per storia 19/02/2026
 4. fare le mappe per torneo 17/02/26
-5. fare l'algoritmo di generazione del labirinto 15/02/26
+5. fare l'algoritmo di generazione del maze 15/02/26
 6. scrittura e lettura da file per torneo 17/02/26
 7. aggiungere entità 23/02/2026
 8. uccidersi

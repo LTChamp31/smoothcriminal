@@ -1,26 +1,26 @@
 package it.volta.smoothcriminal.model;
 
 /**
- * La classe {@code Entita} rappresenta la base per qualsiasi oggetto
+ * La classe {@code Entity} rappresenta la base per qualsiasi oggetto
  * dinamico all'interno del mondo di gioco.
  * Fornisce i parametri di posizionamento (coordinate X e Y) e i
  * relativi metodi di accesso e modifica per il movimento e le
  * interazioni spaziali.
  * * @author Marco Caria & Lotan Teny
  */
-public class Entita {
+public class Entity {
 
     protected int x;
     protected int y;
 
     /**
-     * Costruttore della classe {@code Entita}.
+     * Costruttore della classe {@code Entity}.
      * Inizializza l'entità in una posizione specifica della griglia.
      *
      * @param x La posizione iniziale sulla coordinata X.
      * @param y La posizione iniziale sulla coordinata Y.
      */
-    public Entita(int x, int y) {
+    public Entity(int x, int y) {
         this.x = x;
         this.y = y;
     }

@@ -2,12 +2,12 @@ package it.volta.smoothcriminal.model;
 
 /**
  * La classe {@code Criminal} rappresenta il personaggio controllato dal giocatore.
- * Estende {@link Entita} per la gestione della posizione (X, Y) e implementa
+ * Estende {@link Entity} per la gestione della posizione (X, Y) e implementa
  * un sistema di inventario limitato a tre slot per la gestione dei {@link Gadget}.
- * Gestisce inoltre le collisioni con i muri durante il movimento nel {@link Labirinto}.
+ * Gestisce inoltre le collisioni con i muri durante il movimento nel {@link Maze}.
  * * @author Marco Caria & Lotan Teny
  */
-public class Criminal extends Entita {
+public class Criminal extends Entity {
 
     private boolean gadgetCriminal = false;
     private Gadget[] gadgetUtilizzabili = new Gadget[3];
@@ -15,7 +15,7 @@ public class Criminal extends Entita {
 
     /**
      * Costruttore della classe Criminal.
-     * Inizializza la posizione iniziale del giocatore nel labirinto.
+     * Inizializza la posizione iniziale del giocatore nel maze.
      * * @param x Coordinata X iniziale (colonna).
      * @param y Coordinata Y iniziale (riga).
      */
@@ -24,15 +24,15 @@ public class Criminal extends Entita {
     }
 
     /**
-     * Gestisce lo spostamento del giocatore nel labirinto in base alla direzione fornita.
-     * Il metodo verifica se la cella di destinazione è un muro tramite {@link Labirinto#isMuro(int, int)}:
+     * Gestisce lo spostamento del giocatore nel maze in base alla direzione fornita.
+     * Il metodo verifica se la cella di destinazione è un muro tramite {@link Maze#isMuro(int, int)}:
      * Se la via è libera, aggiorna le coordinate del giocatore e restituisce {@code true}.
      * Se è presente un muro, il movimento viene annullato e restituisce {@code false}.
      * * @param dir Il carattere della direzione ('w' per su, 'a' per sinistra, 's' per giù, 'd' per destra).
-     * @param mappa Il {@link Labirinto} corrente per il controllo delle collisioni.
+     * @param mappa Il {@link Maze} corrente per il controllo delle collisioni.
      * @return {@code true} se il movimento è avvenuto con successo, {@code false} se bloccato da un muro.
      */
-    public boolean muovi(char dir, Labirinto mappa){
+    public boolean muovi(char dir, Maze mappa){
         switch(Character.toLowerCase(dir)){
             case 'w':
                 if(mappa.isMuro(x, y-1)) return false;

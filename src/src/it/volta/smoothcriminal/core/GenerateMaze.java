@@ -6,13 +6,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * La classe {@code GeneraLabirinto} è responsabile della generazione procedurale
- * di un labirinto utilizzando l'algoritmo di backtracking ricorsivo.
+ * La classe {@code GenerateMaze} è responsabile della generazione procedurale
+ * di un maze utilizzando l'algoritmo di backtracking ricorsivo.
  * Il processo inizia riempiendo completamente la griglia di muri e successivamente
- * "scavando" percorsi casuali garantendo che l'intero labirinto sia navigabile.
+ * "scavando" percorsi casuali garantendo che l'intero maze sia navigabile.
  * * @author Marco Caria & Lotan Teny
  */
-public class GeneraLabirinto {
+public class GenerateMaze {
 
     private int altezza, larghezza;
 
@@ -29,7 +29,7 @@ public class GeneraLabirinto {
      * * @param altezza Il numero di righe della matrice.
      * @param larghezza Il numero di colonne della matrice.
      */
-    public GeneraLabirinto(int altezza, int larghezza){
+    public GenerateMaze(int altezza, int larghezza){
         this.altezza = altezza;
         this.larghezza = larghezza;
         matrice = new char[altezza][larghezza];
@@ -42,10 +42,10 @@ public class GeneraLabirinto {
     }
 
     /**
-     * Metodo principale per la generazione del labirinto.
+     * Metodo principale per la generazione del maze.
      * Coordina lo scavo dei percorsi, imposta il punto di uscita ('U') e
      * converte la matrice interna nel formato List di List richiesto dal modello.
-     * * @return Una rappresentazione del labirinto come {@code List<List<Character>>}.
+     * * @return Una rappresentazione del maze come {@code List<List<Character>>}.
      */
     public List<List<Character>> creaLabirinto(){
         crearePassagio(1,1);
@@ -94,9 +94,9 @@ public class GeneraLabirinto {
         }
     }
 
-    /** @return L'altezza impostata per il labirinto. */
+    /** @return L'altezza impostata per il maze. */
     public int getAltezza() { return altezza; }
 
-    /** @return La larghezza impostata per il labirinto. */
+    /** @return La larghezza impostata per il maze. */
     public int getLarghezza() { return larghezza; }
 }

@@ -1,9 +1,7 @@
 package it.volta.smoothcriminal.model;
 
-import it.volta.smoothcriminal.model.Entita;
-
 /**
- * La classe {@code Nemico} rappresenta un'entità all'interno del gioco che
+ * La classe {@code Enemy} rappresenta un'entità all'interno del gioco che
  * insegue il {@link Criminal}.
  * Implementa una logica di movimento verso la posizione del giocatore e
  * gestisce un sistema di "carattere sotto" per evitare di cancellare graficamente
@@ -11,7 +9,7 @@ import it.volta.smoothcriminal.model.Entita;
  *
  * * @author Marco Caria & Lotan Teny
  */
-public class Nemico extends Entita {
+public class Enemy extends Entity {
 
     /** * Memorizza il carattere grafico presente nella cella prima del passaggio del nemico.
      * Serve a ripristinare correttamente la mappa dopo lo spostamento.
@@ -19,13 +17,13 @@ public class Nemico extends Entita {
     private char carattereSotto = ' ';
 
     /**
-     * Costruttore della classe Nemico.
+     * Costruttore della classe Enemy.
      * Inizializza la posizione dell'entità nemica.
      *
      * @param x Coordinata X iniziale (colonna).
      * @param y Coordinata Y iniziale (riga).
      */
-    public Nemico(int x, int y) {
+    public Enemy(int x, int y) {
         super(x, y);
     }
 
@@ -34,14 +32,14 @@ public class Nemico extends Entita {
      * Il processo segue queste fasi:
      * Ripristina il carattere originale nella posizione attuale prima di spostarsi
      * Calcola la direzione (asse X o Y) per avvicinarsi al giocatore.
-     * Verifica la presenza di muri tramite {@link Labirinto#isMuro(int, int)} prima di muoversi.
+     * Verifica la presenza di muri tramite {@link Maze#isMuro(int, int)} prima di muoversi.
      * Salva il carattere presente nella nuova cella (a meno che non sia il giocatore)
      * Posiziona l'icona del nemico ({@code Ⓝ}) nella nuova posizione sulla mappa.
      *
-     * @param mappa    L'istanza del {@link Labirinto} corrente per controlli e aggiornamenti grafici.
+     * @param mappa    L'istanza del {@link Maze} corrente per controlli e aggiornamenti grafici.
      * @param criminal L'istanza del {@link Criminal} da inseguire per ottenerne le coordinate.
      */
-    public void muovi(Labirinto mappa, Criminal criminal) {
+    public void muovi(Maze mappa, Criminal criminal) {
         mappa.setCarattere(x, y, carattereSotto);
 
         int criminalX = criminal.getX();

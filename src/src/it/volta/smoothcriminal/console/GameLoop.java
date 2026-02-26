@@ -1,6 +1,7 @@
 package it.volta.smoothcriminal.console;
 
-import it.volta.smoothcriminal.core.ControllaOggetti;
+import it.volta.smoothcriminal.core.CheckObjects;
+import it.volta.smoothcriminal.core.CreateObjects;
 import it.volta.smoothcriminal.model.*;
 import java.util.List;
 import java.util.function.BooleanSupplier;
@@ -14,16 +15,16 @@ import java.util.function.BooleanSupplier;
 public class GameLoop {
 
     private ConsoleUI ui;
-    private GiocoConsole giocoConsole;
+    private GameConsole gameConsole;
 
     /**
      * Costruttore della classe GameLoop.
      * * @param ui L'istanza di {@link ConsoleUI} utilizzata per input e output.
-     * @param giocoConsole L'istanza di {@link GiocoConsole} che gestisce lo stato globale.
+     * @param gameConsole L'istanza di {@link GameConsole} che gestisce lo stato globale.
      */
-    public GameLoop(ConsoleUI ui, GiocoConsole giocoConsole) {
+    public GameLoop(ConsoleUI ui, GameConsole gameConsole) {
         this.ui = ui;
-        this.giocoConsole = giocoConsole;
+        this.gameConsole = gameConsole;
     }
 
     /**
@@ -35,18 +36,18 @@ public class GameLoop {
      * L'elaborazione dei comandi di movimento (WASD) o di uscita (X).
      * L'attivazione dei gadget.
      * Il controllo delle trappole e gadget.
-     * * @param labirinto L'istanza del {@link Labirinto} corrente.
+     * * @param maze L'istanza del {@link Maze} corrente.
      * @param criminal L'istanza del {@link Criminal} controllato dall'utente.
      * @param vittoria Un {@link BooleanSupplier} che restituisce true se il giocatore ha vinto.
      * @param perdita Un {@link BooleanSupplier} che restituisce true se il giocatore ha perso.
-     * @param trappole La lista delle {@link Trappola} presenti nel livello corrente.
+     * @param trappole La lista delle {@link Trap} presenti nel livello corrente.
      */
-    public boolean run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trappola> trappole) {
-        ControllaOggetti controllore = new ControllaOggetti(trappole);
-        Gadget[] tuttiGadget = it.volta.smoothcriminal.core.CreaOggetti.creaGadget(labirinto, criminal);
+    public boolean run(Maze maze, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trap> trappole) {
+        CheckObjects controllore = new CheckObjects(trappole);
+        Gadget[] tuttiGadget = CreateObjects.creaGadget(maze, criminal);
 
         while (!vittoria.getAsBoolean() && !perdita.getAsBoolean()) {
-            ui.render(labirinto, criminal);
+            ui.render(maze, criminal);
 
             if (criminal.getGadgetCriminal()) {
                 System.out.print("Gadget disponibili: ");
@@ -61,13 +62,13 @@ public class GameLoop {
             }
 
             if (move == 'w' || move == 'a' || move == 's' || move == 'd') {
-                criminal.muovi(move, labirinto);
+                criminal.muovi(move, maze);
             } else if (Character.isDigit(move)) {
                 gestisciUsoGadget(move, criminal);
             }
 
             controllore.controllaTrappole(criminal.getX(), criminal.getY());
-            controllore.controllaGadget(criminal.getX(), criminal.getY(), tuttiGadget, labirinto, criminal);
+            controllore.controllaGadget(criminal.getX(), criminal.getY(), tuttiGadget, maze, criminal);
         }
         return true; // La partita è finita per vittoria o perdita
     }

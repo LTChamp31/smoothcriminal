@@ -3,36 +3,36 @@ package it.volta.smoothcriminal.model;
 import java.util.List;
 
 /**
- * La classe {@code Labirinto} rappresenta l'ambiente di gioco
- * Gestisce la matrice dei caratteri del labirinto, le posizioni iniziali,
+ * La classe {@code Maze} rappresenta l'ambiente di gioco
+ * Gestisce la matrice dei caratteri del maze, le posizioni iniziali,
  * i punti di uscita e le liste di oggetti interattivi come trappole, gadget e nemici.
  * * @author Marco Caria & Lotan Teny
  */
-public class Labirinto {
+public class Maze {
     private final int inizioX;
     private final int inizioY;
     private final int colonne;
     private int uscitaY;
     private int uscitaX;
     private List<List<Character>> mat;
-    private List<Coordinate>[] xyTrappole;
+    private List<Coordinates>[] xyTrappole;
     private int[][] xyGadget;
-    private List<Nemico> nemico;
+    private List<Enemy> enemy;
 
     /**
-     * Costruisce un nuovo oggetto Labirinto con tutti i parametri necessari per la sessione.
+     * Costruisce un nuovo oggetto Maze con tutti i parametri necessari per la sessione.
      *
      * @param mat          La matrice di caratteri che rappresenta i muri e i percorsi.
      * @param inizioX      Coordinata X del punto di partenza del giocatore.
      * @param inizioY      Coordinata Y del punto di partenza del giocatore.
-     * @param colonne      Numero totale di colonne del labirinto.
+     * @param colonne      Numero totale di colonne del maze.
      * @param uscitaX      Coordinata X iniziale dell'uscita.
      * @param uscitaY      Coordinata Y iniziale dell'uscita.
      * @param xyTrappole   Array di liste contenente le coordinate delle trappole.
      * @param xyGadget     Matrice contenente le posizioni dei gadget.
-     * @param nemico       Lista dei nemici presenti nel livello.
+     * @param enemy       Lista dei nemici presenti nel livello.
      */
-    public Labirinto(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int uscitaY, List<Coordinate>[] xyTrappole, int[][] xyGadget, List<Nemico> nemico) {
+    public Maze(List<List<Character>> mat, int inizioX, int inizioY, int colonne, int uscitaX, int uscitaY, List<Coordinates>[] xyTrappole, int[][] xyGadget, List<Enemy> enemy) {
         this.mat = mat;
         this.inizioX = inizioX;
         this.inizioY = inizioY;
@@ -41,7 +41,7 @@ public class Labirinto {
         this.uscitaY = uscitaY;
         this.xyTrappole = xyTrappole;
         this.xyGadget = xyGadget;
-        this.nemico = nemico;
+        this.enemy = enemy;
     }
 
     /**
@@ -71,7 +71,7 @@ public class Labirinto {
     }
 
     /**
-     * Genera il labirinto.
+     * Genera il maze.
      * Inserisce il simbolo del giocatore ({@code Ⓒ}) alle coordinate specificate.
      *
      * @param x Coordinata X attuale del giocatore.
@@ -159,7 +159,7 @@ public class Labirinto {
     public int[][] getGadget() { return xyGadget; }
 
     /** @return Array di liste delle coordinate delle trappole. */
-    public List<Coordinate>[] getTrappole() { return xyTrappole; }
+    public List<Coordinates>[] getTrappole() { return xyTrappole; }
 
     /** @return Numero totale di colonne. */
     public int getColonne() { return colonne; }
@@ -168,7 +168,7 @@ public class Labirinto {
     public int getRighe() { return mat.size(); }
 
     /** @return Lista dei nemici presenti. */
-    public List<Nemico> getNemici() { return nemico; }
+    public List<Enemy> getNemici() { return enemy; }
 
     /**
      * Restituisce il carattere presente a una specifica coordinata.

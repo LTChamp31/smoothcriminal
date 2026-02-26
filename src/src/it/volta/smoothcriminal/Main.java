@@ -10,11 +10,8 @@ public class Main {
         do {
             sceltaInterfaccia = ui.scegliInterfaccia();
             if (sceltaInterfaccia == 1) {
-                GiocoConsole gioco = new GiocoConsole(null, null);
-                boolean continua = true;
-                while (continua) {
-                    continua = gioco.avvia();
-                }
+                GameConsole gioco = new GameConsole(null, null);
+                gioco.avvia();
             } else {
                 System.out.println("L'interfaccia grafica è ancora in fase di sviluppo!!");
             }

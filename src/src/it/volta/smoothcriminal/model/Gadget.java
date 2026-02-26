@@ -9,7 +9,7 @@ package it.volta.smoothcriminal.model;
  *
  * * @author Marco Caria & Lotan Teny
  */
-public class Gadget extends Oggetto {
+public class Gadget extends Objects {
 
     private int tasto;
 
@@ -21,12 +21,12 @@ public class Gadget extends Oggetto {
      * @param nome      Il nome identificativo del gadget
      * @param x         La coordinata X iniziale sulla mappa.
      * @param y         La coordinata Y iniziale sulla mappa.
-     * @param labirinto Il riferimento al {@link Labirinto} per le interazioni ambientali.
+     * @param maze Il riferimento al {@link Maze} per le interazioni ambientali.
      * @param criminal  Il riferimento al {@link Criminal} che utilizzerà il gadget.
      * @param tasto     Il tasto numerico assegnato per l'attivazione.
      */
-    public Gadget(String nome, int x, int y, Labirinto labirinto, Criminal criminal, int tasto) {
-        super(labirinto, criminal, x, y, nome);
+    public Gadget(String nome, int x, int y, Maze maze, Criminal criminal, int tasto) {
+        super(maze, criminal, x, y, nome);
         this.tasto = tasto;
     }
 
@@ -34,7 +34,7 @@ public class Gadget extends Oggetto {
      * Esegue l'azione del gadget in base al suo nome.
      * Questo metodo implementa il comportamento dei gadget, smistando
      * l'esecuzione verso metodi o interagendo direttamente con
-     * il labirinto e il giocatore.
+     * il maze e il giocatore.
      * @param direzione Il carattere della direzione scelta dall'utente (es. 'w', 'a', 's', 'd' o 'q', 'e', 'z', 'c').
      */
     @Override
@@ -56,7 +56,7 @@ public class Gadget extends Oggetto {
                 azioneBomba(cx, cy);
                 break;
             case "avvicina uscita":
-                labirinto.avvicinaUscita(cx, cy, labirinto.getUscitaX(), labirinto.getUscitaY());
+                maze.avvicinaUscita(cx, cy, maze.getUscitaX(), maze.getUscitaY());
                 break;
         }
     }
@@ -69,10 +69,10 @@ public class Gadget extends Oggetto {
      * @param cy  Coordinata Y attuale del criminale.
      */
     private void azioneDistruggi(char dir, int cx, int cy) {
-        if (dir == 'w') labirinto.cancellaCarattere(cx, cy - 1);
-        else if (dir == 's') labirinto.cancellaCarattere(cx, cy + 1);
-        else if (dir == 'a') labirinto.cancellaCarattere(cx - 1, cy);
-        else if (dir == 'd') labirinto.cancellaCarattere(cx + 1, cy);
+        if (dir == 'w') maze.cancellaCarattere(cx, cy - 1);
+        else if (dir == 's') maze.cancellaCarattere(cx, cy + 1);
+        else if (dir == 'a') maze.cancellaCarattere(cx - 1, cy);
+        else if (dir == 'd') maze.cancellaCarattere(cx + 1, cy);
     }
 
     /**
@@ -90,7 +90,7 @@ public class Gadget extends Oggetto {
         else if (dir == 'a') nx -= 2;
         else if (dir == 'd') nx += 2;
 
-        if (!labirinto.isMuro(nx, ny) && ny >= 0 && ny < labirinto.getRighe() && nx >= 0 && nx < labirinto.getColonne()) {
+        if (!maze.isMuro(nx, ny) && ny >= 0 && ny < maze.getRighe() && nx >= 0 && nx < maze.getColonne()) {
             criminal.setXY(nx, ny);
         }
     }
@@ -109,7 +109,7 @@ public class Gadget extends Oggetto {
         else if (dir == 'z') { nx--; ny++; }
         else if (dir == 'c') { nx++; ny++; }
 
-        if (!labirinto.isMuro(nx, ny)) criminal.setXY(nx, ny);
+        if (!maze.isMuro(nx, ny)) criminal.setXY(nx, ny);
     }
 
     /**
@@ -119,10 +119,10 @@ public class Gadget extends Oggetto {
      * @param cy Coordinata Y attuale del criminale.
      */
     private void azioneBomba(int cx, int cy) {
-        labirinto.cancellaCarattere(cx + 1, cy);
-        labirinto.cancellaCarattere(cx - 1, cy);
-        labirinto.cancellaCarattere(cx, cy + 1);
-        labirinto.cancellaCarattere(cx, cy - 1);
+        maze.cancellaCarattere(cx + 1, cy);
+        maze.cancellaCarattere(cx - 1, cy);
+        maze.cancellaCarattere(cx, cy + 1);
+        maze.cancellaCarattere(cx, cy - 1);
     }
 
     /** @return Il tasto associato al gadget. */

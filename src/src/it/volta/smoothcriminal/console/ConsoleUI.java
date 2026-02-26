@@ -92,16 +92,16 @@ public class ConsoleUI {
     }
 
     /**
-     * Esegue il rendering grafico del labirinto su console.
+     * Esegue il rendering grafico del maze su console.
      * Pulisce lo schermo e posiziona il cursore in alto a sinistra.
-     * * @param labirinto L'oggetto {@link Labirinto} da visualizzare.
+     * * @param maze L'oggetto {@link Maze} da visualizzare.
      * @param criminal L'oggetto {@link Criminal} per ottenere le coordinate attuali del giocatore.
      */
-    public void render(Labirinto labirinto, Criminal criminal) {
+    public void render(Maze maze, Criminal criminal) {
         System.out.println();
         System.out.print("\033[H\033[2J");
         System.out.flush();
-        System.out.println(labirinto.mappa(criminal.getX(), criminal.getY()));
+        System.out.println(maze.mappa(criminal.getX(), criminal.getY()));
     }
 
     /**

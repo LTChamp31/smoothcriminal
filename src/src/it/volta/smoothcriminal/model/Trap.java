@@ -1,39 +1,39 @@
 package it.volta.smoothcriminal.model;
 
 /**
- * La classe {@code Trappola} rappresenta un ostacolo
+ * La classe {@code Trap} rappresenta un ostacolo
  * che si attiva al contatto con il giocatore.
- * Estende la classe {@link Oggetto} e tiene conto
+ * Estende la classe {@link Objects} e tiene conto
  * dello spostamento dell'uscita o del teletrasporto
  * del giocatore in una posizione ignota.
  *
  * * @author Marco Caria & Lotan Teny
  */
-public class Trappola extends Oggetto {
+public class Trap extends Objects {
 
     /**
-     * Costruisce una nuova Trappola con i parametri specificati.
+     * Costruisce una nuova Trap con i parametri specificati.
      *
-     * @param labirinto Il riferimento al {@link Labirinto} corrente.
+     * @param maze Il riferimento al {@link Maze} corrente.
      * @param criminal  Il riferimento al {@link Criminal} che attiva la trappola.
      * @param x         La coordinata X della trappola sulla mappa.
      * @param y         La coordinata Y della trappola sulla mappa.
      * @param nome      Il nome della trappola (es. "Sposta Uscita", "Teleport").
      */
-    public Trappola(Labirinto labirinto, Criminal criminal, int x, int y, String nome) {
-        super(labirinto, criminal, x, y, nome);
+    public Trap(Maze maze, Criminal criminal, int x, int y, String nome) {
+        super(maze, criminal, x, y, nome);
     }
 
     /**
      * Attiva l'effetto della trappola in base al suo nome identificativo.
      * Le tipologie di trappola gestite sono:
-     * Sposta Uscita: Individua una cella vuota casuale nel labirinto e
+     * Sposta Uscita: Individua una cella vuota casuale nel maze e
      * vi sposta l'uscita principale ('U').
      * Teleport: Individua una cella vuota casuale e vi teletrasporta
      * istantaneamente il giocatore.
      *
      * @param direzione Il parametro direzione viene accettato per compatibilità con
-     * la firma del metodo {@code usa} in {@link Oggetto}, ma viene
+     * la firma del metodo {@code usa} in {@link Objects}, ma viene
      * ignorato dalle trappole poiché l'attivazione è automatica.
      */
     @Override
@@ -41,24 +41,24 @@ public class Trappola extends Oggetto {
         if (nome.equals("Sposta Uscita")) {
             int ux, uy;
             do {
-                ux = (int) (Math.random() * labirinto.getColonne());
-                uy = (int) (Math.random() * labirinto.getRighe());
+                ux = (int) (Math.random() * maze.getColonne());
+                uy = (int) (Math.random() * maze.getRighe());
 
-                if (!labirinto.isMuro(ux, uy)) {
-                    labirinto.spostaUscita(ux, uy);
+                if (!maze.isMuro(ux, uy)) {
+                    maze.spostaUscita(ux, uy);
                 }
-            } while (labirinto.isMuro(ux, uy));
+            } while (maze.isMuro(ux, uy));
 
         } else if (nome.equals("Teleport")) {
             int tx, ty;
             do {
-                tx = (int) (Math.random() * labirinto.getColonne());
-                ty = (int) (Math.random() * labirinto.getRighe());
+                tx = (int) (Math.random() * maze.getColonne());
+                ty = (int) (Math.random() * maze.getRighe());
 
-                if (!labirinto.isMuro(tx, ty)) {
+                if (!maze.isMuro(tx, ty)) {
                     criminal.setXY(tx, ty);
                 }
-            } while (labirinto.isMuro(tx, ty));
+            } while (maze.isMuro(tx, ty));
         }
     }
 }

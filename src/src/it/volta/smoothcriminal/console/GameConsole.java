@@ -7,28 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * La classe {@code GiocoConsole} estende {@link Videogioco} e rappresenta l'implementazione
+ * La classe {@code GameConsole} estende {@link VideoGame} e rappresenta l'implementazione
  * specifica del gioco per l'interfaccia a riga di comando.
  * Gestisce il flusso principale delle diverse modalità di gioco: Storia, Allenamento
  * e Torneo, si occupa del caricamento dei livelli, della gestione dei progressi
  * dell'utente e del salvataggio dei record temporali.
  * * @author Marco Caria & Lotan Teny
  **/
-public class GiocoConsole extends Videogioco {
+public class GameConsole extends VideoGame {
 
     private ConsoleUI ui;
     private GameLoop loop;
     private LevelLoader loader = new LevelLoader();
-    private List<Trappola> trappola;
+    private List<Trap> trap;
 
     /**
-     * Costruttore della classe {@code GiocoConsole}.
+     * Costruttore della classe {@code GameConsole}.
      * Inizializza l'interfaccia utente e il ciclo di gioco.
      * * @param criminal L'entità del giocatore (può essere null all'inizializzazione).
-     * @param labirinto La struttura del labirinto (può essere null all'inizializzazione).
+     * @param maze La struttura del maze (può essere null all'inizializzazione).
      */
-    public GiocoConsole(Criminal criminal, Labirinto labirinto) {
-        super(criminal, labirinto);
+    public GameConsole(Criminal criminal, Maze maze) {
+        super(criminal, maze);
         this.ui = new ConsoleUI();
         this.loop = new GameLoop(ui, this);
     }
@@ -50,6 +50,7 @@ public class GiocoConsole extends Videogioco {
             return true;
         } else {
             System.out.println("Ciao Ciao");
+            System.exit(0);
             return false;
         }
     }
@@ -80,11 +81,11 @@ public class GiocoConsole extends Videogioco {
             indice[0] = livelloCorrente - 1;
 
             this.loader = new LevelLoader();
-            this.labirinto = loader.loadLevel(indice, 'S');
-            this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
-            this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
+            this.maze = loader.loadLevel(indice, 'S');
+            this.criminal = new Criminal(maze.getInizioX(), maze.getInizioY());
+            this.trap = CreateObjects.creaTrappole(maze, criminal);
 
-            boolean terminatoRegolarmente = loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
+            boolean terminatoRegolarmente = loop.run(maze, criminal, this::controllaVittoria, this::controllaPerdita, trap);
 
             if (!terminatoRegolarmente) {
                 return;
@@ -206,18 +207,18 @@ public class GiocoConsole extends Videogioco {
     }
 
     /**
-     * Avvia Allenamento con un labirinto generato casualmente.
+     * Avvia Allenamento con un maze generato casualmente.
      * Poi mostra il tempo di completamento.
      */
     public void avviaAllenamento() {
         this.loader = new LevelLoader();
-        this.labirinto = loader.loadLevel();
-        this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
-        this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
+        this.maze = loader.loadLevel();
+        this.criminal = new Criminal(maze.getInizioX(), maze.getInizioY());
+        this.trap = CreateObjects.creaTrappole(maze, criminal);
 
         long inizio = System.currentTimeMillis();
 
-        boolean terminatoRegolarmente = loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
+        boolean terminatoRegolarmente = loop.run(maze, criminal, this::controllaVittoria, this::controllaPerdita, trap);
 
         if (!terminatoRegolarmente) {
             return;
@@ -238,14 +239,14 @@ public class GiocoConsole extends Videogioco {
         int[] indice = new int[1];
         this.loader = new LevelLoader();
 
-        this.labirinto = loader.loadLevel(indice, 'T');
-        this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
-        this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
+        this.maze = loader.loadLevel(indice, 'T');
+        this.criminal = new Criminal(maze.getInizioX(), maze.getInizioY());
+        this.trap = CreateObjects.creaTrappole(maze, criminal);
 
         String nome = ui.scegliNome();
         long inizio = System.currentTimeMillis();
 
-        boolean terminatoRegolarmente = loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
+        boolean terminatoRegolarmente = loop.run(maze, criminal, this::controllaVittoria, this::controllaPerdita, trap);
 
         if (!terminatoRegolarmente) {
             return;

@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * La classe {@code LevelLoader} è responsabile del caricamento e della configurazione dei livelli di gioco.
  * Supporta due modalità di caricamento:
- * 1 - Utilizza {@link GeneraLabirinto} per creare una mappa casuale (usata in Allenamento).
+ * 1 - Utilizza {@link GenerateMaze} per creare una mappa casuale (usata in Allenamento).
  * 2 - Da File: Legge mappe in formato ASCII da file di testo, interpretando i simboli per posizionare
  * giocatore, uscita, gadget, trappole e nemici (usata in Storia e Torneo).
  *
@@ -20,14 +20,14 @@ import java.util.Random;
 public class LevelLoader {
     private int righe, colonne, inizioX=0, inizioY=0, uscitaX, uscitaY;
     private List<List<Character>> mat = new ArrayList<>();
-    private List<Coordinate>[] xyTrappole = new ArrayList[3];
+    private List<Coordinates>[] xyTrappole = new ArrayList[3];
     private int[][] xyGadget = new int[5][2];
-    private List<Nemico> nemico = new ArrayList<>();
+    private List<Enemy> enemy = new ArrayList<>();
 
     /** Dimensioni casuali per la generazione procedurale. */
     private int altezza = 17 + 2 * (int)(Math.random() * 6);
     private int larghezza = 17 + 2 * (int)(Math.random() * 6);
-    private GeneraLabirinto generaLabirinto = new GeneraLabirinto(altezza, larghezza);
+    private GenerateMaze generateMaze = new GenerateMaze(altezza, larghezza);
 
     /**
      * Costruttore della classe. Inizializza le liste per le coordinate delle trappole.
@@ -41,18 +41,18 @@ public class LevelLoader {
     /**
      * Carica un livello generato proceduralmente.
      * Configura automaticamente le coordinate di inizio e fine in base alla generazione casuale.
-     * * @return Un'istanza di {@link Labirinto} generata algoritmicamente.
+     * * @return Un'istanza di {@link Maze} generata algoritmicamente.
      */
-    public Labirinto loadLevel() {
+    public Maze loadLevel() {
         mat.clear();
-        mat = generaLabirinto.creaLabirinto();
-        colonne = generaLabirinto.getLarghezza();
-        righe = generaLabirinto.getAltezza();
+        mat = generateMaze.creaLabirinto();
+        colonne = generateMaze.getLarghezza();
+        righe = generateMaze.getAltezza();
         uscitaX = colonne-1;
         uscitaY = righe-2;
         inizioX = 1;
         inizioY = 1;
-        return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadget, nemico);
+        return new Maze(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadget, enemy);
     }
 
     /**
@@ -62,12 +62,12 @@ public class LevelLoader {
      * 'U': Punto di uscita
      * 'S', 'T': Tipologie di trappole
      * 'Ⓖ', 'Ⓙ', 'Ⓓ', 'Ⓑ', 'Ⓨ': Tipologie di gadget
-     * 'Ⓝ': Posizione iniziale di un nemico
+     * 'Ⓝ': Posizione iniziale di un enemy
      * * @param indiceScelto Array contenente l'indice della mappa da caricare (modificato in caso di Torneo).
      * @param tipo Carattere indicante il tipo di gioco ('S' per Storia, altri per Torneo).
-     * @return Il {@link Labirinto} configurato con tutti gli oggetti estratti dalla mappa ASCII.
+     * @return Il {@link Maze} configurato con tutti gli oggetti estratti dalla mappa ASCII.
      */
-    public Labirinto loadLevel(int[] indiceScelto, char tipo) {
+    public Maze loadLevel(int[] indiceScelto, char tipo) {
         List<String> tutteLeMappe = new ArrayList<>();
         int indiceMappa;
 
@@ -111,11 +111,11 @@ public class LevelLoader {
                     break;
                 case 'S':
                     ch = ' ';
-                    xyTrappole[0].add(new Coordinate(currentCol, righe));
+                    xyTrappole[0].add(new Coordinates(currentCol, righe));
                     break;
                 case 'T':
                     ch = ' ';
-                    xyTrappole[1].add(new Coordinate(currentCol, righe));
+                    xyTrappole[1].add(new Coordinates(currentCol, righe));
                     break;
                 case 'Ⓖ': xyGadget[0][0] = righe; xyGadget[0][1] = currentCol; break;
                 case 'Ⓙ': xyGadget[1][0] = righe; xyGadget[1][1] = currentCol; break;
@@ -123,8 +123,8 @@ public class LevelLoader {
                 case 'Ⓑ': xyGadget[3][0] = righe; xyGadget[3][1] = currentCol; break;
                 case 'Ⓨ': xyGadget[4][0] = righe; xyGadget[4][1] = currentCol; break;
                 case 'Ⓝ':
-                    Nemico n = new Nemico(currentCol, righe);
-                    this.nemico.add(n);
+                    Enemy n = new Enemy(currentCol, righe);
+                    this.enemy.add(n);
                     break;
             }
 
@@ -142,7 +142,7 @@ public class LevelLoader {
         for (List<Character> row : mat)
             colonne = Math.max(colonne, row.size());
 
-        return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadget, nemico);
+        return new Maze(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadget, enemy);
     }
 
     /**
