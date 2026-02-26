@@ -1,5 +1,6 @@
-package it.volta.smoothcriminal.model;
+package it.volta.smoothcriminal.core;
 
+import it.volta.smoothcriminal.model.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +13,7 @@ public class LevelLoader {
     private List<List<Character>> mat = new ArrayList<>();
     private List<Coordinate>[] xyTrappole = new ArrayList[3];
     private int[][] xyGadget = new int[5][2];
-    private List<Nemici> nemici = new ArrayList<>();
+    private List<Nemico> nemico = new ArrayList<>();
     private int altezza = 17 + 2 * (int)(Math.random() * 6);
     private int larghezza = 17 + 2 * (int)(Math.random() * 6);
     private GeneraLabirinto generaLabirinto = new GeneraLabirinto(altezza, larghezza);
@@ -32,10 +33,8 @@ public class LevelLoader {
         uscitaY = righe-2;
         inizioX = 1;
         inizioY = 1;
-        return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadget, nemici);
+        return new Labirinto(mat, inizioX, inizioY, colonne, uscitaX, uscitaY, xyTrappole, xyGadget, nemico);
     }
-
-
 
     public Labirinto loadLevel(int[] indiceScelto, char tipo) {
         List<String> tutteLeMappe = new ArrayList<>();
@@ -108,8 +107,8 @@ public class LevelLoader {
                     xyGadget[4][1] = currentCol;
                     break;
                 case 'Ⓝ':
-                    Nemici nemico = new Nemici(currentCol, righe);
-                    nemici.add(nemico);
+                    Nemico nemico = new Nemico(currentCol, righe);
+                    this.nemico.add(nemico);
                     break;
             }
 
@@ -136,31 +135,29 @@ public class LevelLoader {
                 uscitaY,
                 xyTrappole,
                 xyGadget,
-                nemici
+                nemico
         );
     }
 
     public List<String> leggiFile(String indirizzo) {
         List<String> tutteLeMappe = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(
-                new FileReader(indirizzo))) {
-
-            StringBuilder mappaCorrente = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(indirizzo))) {
+            String mappaCorrente = "";
             String linea;
 
             while ((linea = br.readLine()) != null) {
 
                 if (linea.equals("---")) {
-                    tutteLeMappe.add(mappaCorrente.toString());
-                    mappaCorrente.setLength(0);
+                    tutteLeMappe.add(mappaCorrente);
+                    mappaCorrente = "";
                 } else {
-                    mappaCorrente.append(linea).append("\n");
+                    mappaCorrente += linea + "\n";
                 }
             }
 
-            if (mappaCorrente.length() > 0)
-                tutteLeMappe.add(mappaCorrente.toString());
+            if (!mappaCorrente.isEmpty())
+                tutteLeMappe.add(mappaCorrente);
 
         } catch (IOException e) {
             System.out.println("Errore caricamento mappe torneo");
@@ -168,7 +165,6 @@ public class LevelLoader {
         return tutteLeMappe;
     }
 
-        /*ⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏ*/
 }
 
 

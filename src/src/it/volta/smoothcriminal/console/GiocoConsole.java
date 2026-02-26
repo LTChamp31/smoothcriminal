@@ -1,19 +1,16 @@
 package it.volta.smoothcriminal.console;
 
-import it.volta.smoothcriminal.core.CreaOggetti;
-import it.volta.smoothcriminal.core.Videogioco;
+import it.volta.smoothcriminal.core.*;
 import it.volta.smoothcriminal.model.*;
-import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class GiocoConsole extends Videogioco {
     private ConsoleUI ui;
     private GameLoop loop;
     private LevelLoader loader = new LevelLoader();
-    private List<Trappole> trappole;
+    private List<Trappola> trappola;
 
     public GiocoConsole(Criminal criminal, Labirinto labirinto) {
         super(criminal, labirinto);
@@ -31,10 +28,6 @@ public class GiocoConsole extends Videogioco {
             return true;
         } else if (ris == 3){
             avviaTorneo();
-            return true;
-        }
-        else if (ris == 4){
-            //classifica
             return true;
         }
         else{
@@ -65,8 +58,8 @@ public class GiocoConsole extends Videogioco {
             this.loader = new LevelLoader();
             this.labirinto = loader.loadLevel(indice, 'S');
             this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
-            this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
-            loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappole);
+            this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
+            loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
             if (controllaVittoria()) {
                 livelloCorrente++;
                 salvaProgresso(nome, livelloCorrente);
@@ -196,11 +189,11 @@ public class GiocoConsole extends Videogioco {
         this.loader = new LevelLoader();
         this.labirinto = loader.loadLevel();
         this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
-        this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
+        this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
 
 
         long inizio = System.currentTimeMillis();
-        loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappole);
+        loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
         long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;
         System.out.println("Tempo completamento: " + secondi + " secondi");
@@ -219,13 +212,13 @@ public class GiocoConsole extends Videogioco {
         this.loader = new LevelLoader();
         this.labirinto = loader.loadLevel(indice, 'T');
         this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
-        this.trappole = CreaOggetti.creaTrappole(labirinto, criminal);
+        this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
 
         String nome = ui.scegliNome();
 
         long inizio = System.currentTimeMillis();
 
-        loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappole);
+        loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
 
         long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;

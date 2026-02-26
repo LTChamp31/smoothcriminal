@@ -1,4 +1,4 @@
-package it.volta.smoothcriminal.core;
+package it.volta.smoothcriminal.model;
 
 public class Entita {
     protected int x;
@@ -19,10 +19,9 @@ public class Entita {
         this.y = y;
     }
 
-    /*Possibili entità nemiche:
+    /*
+    Possibili entità nemiche:
     1. attraversa i muri
     2. si muove in diagonale
-    3.
-    4.
-     */
+    */
 }

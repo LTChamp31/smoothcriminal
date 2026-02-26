@@ -29,15 +29,14 @@ public abstract class Videogioco {
         int cx = criminal.getX();
         int cy = criminal.getY();
         int nx, ny;
-        List<Nemici> nemici = labirinto.getNemici();
-        for (int i=0; i<nemici.size(); i++) {
-            nx = nemici.get(i).getX();
-            ny = nemici.get(i).getY();
-            //System.out.println(nx + " " + ny + "\n" + cx + " " + cy);
+        List<Nemico> nemico = labirinto.getNemici();
+        for (int i = 0; i< nemico.size(); i++) {
+            nx = nemico.get(i).getX();
+            ny = nemico.get(i).getY();
             if(nx == cx && ny == cy) {
                 return true;
             } else {
-                nemici.get(i).muovi(labirinto, criminal);
+                nemico.get(i).muovi(labirinto, criminal);
             }
         }
 

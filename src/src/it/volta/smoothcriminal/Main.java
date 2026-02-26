@@ -1,25 +1,23 @@
 package it.volta.smoothcriminal;
 
-import it.volta.smoothcriminal.console.GiocoConsole;
-import it.volta.smoothcriminal.model.*;
-import java.util.*;
+import it.volta.smoothcriminal.console.*;
 
 public class Main {
     public static void main(String[] args) {
-        GiocoConsole gioco = new GiocoConsole(null, null);
-        Scanner input = new Scanner(System.in);
-        int ris;
-        boolean continua = true;
+        ConsoleUI ui = new ConsoleUI();
 
-        System.out.println("Giocare su console -1 | Giocare su GUI -2");
+        int sceltaInterfaccia;
         do {
-            ris = input.nextInt();
-        } while (ris != 1 && ris != 2);
-        if (ris == 1) {
-            while(continua){
-                continua = gioco.avvia();
+            sceltaInterfaccia = ui.scegliInterfaccia();
+            if (sceltaInterfaccia == 1) {
+                GiocoConsole gioco = new GiocoConsole(null, null);
+                boolean continua = true;
+                while (continua) {
+                    continua = gioco.avvia();
+                }
+            } else {
+                System.out.println("L'interfaccia grafica è ancora in fase di sviluppo!!");
             }
-
-        }
+        } while (sceltaInterfaccia == 2);
     }
 }

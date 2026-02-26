@@ -1,11 +1,9 @@
 package it.volta.smoothcriminal.model;
 
-import it.volta.smoothcriminal.core.Entita;
-
 public class Criminal extends Entita{
     private boolean gadgetCriminal = false;
     private Gadget[] gadgetUtilizzabili = new Gadget[3];
-    private int contatore = 0;
+    private int numeroGadget = 0;
 
     public Criminal(int x, int y){
         super(x,y);
@@ -40,15 +38,15 @@ public class Criminal extends Entita{
         return true;
     }
 
-    public int getContatore(){return contatore;}
-
     public void aggiungiGadget(Gadget gadget){
-        gadgetUtilizzabili[contatore] = gadget;
+        if (numeroGadget < 3) {
+            gadgetUtilizzabili[numeroGadget] = gadget;
+            numeroGadget++;
+        }
         System.out.println("Gadget Utilizzabili:");
         for(Gadget g : gadgetUtilizzabili){
             if(g!=null) System.out.println(g.getNome());
         }
-        contatore++;
         gadgetCriminal = true;
     }
 
@@ -56,10 +54,10 @@ public class Criminal extends Entita{
         for(int i=0;i<3;i++){
             if(gadgetUtilizzabili[i]!=null && gadgetUtilizzabili[i].getNome().equals(gadget.getNome())){
                 gadgetUtilizzabili[i] = null;
-                contatore--;
+                numeroGadget--;
             }
         }
-        if(contatore==0){
+        if(numeroGadget==0){
             gadgetCriminal = false;
         }
     }

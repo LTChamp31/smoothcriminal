@@ -1,18 +1,12 @@
 package it.volta.smoothcriminal.console;
 
-import it.volta.smoothcriminal.core.CreaOggetti;
-import it.volta.smoothcriminal.model.Criminal;
-import it.volta.smoothcriminal.model.Labirinto;
-import it.volta.smoothcriminal.model.Trappole;
-import it.volta.smoothcriminal.model.Gadget;
-
+import it.volta.smoothcriminal.core.ControllaOggetti;
+import it.volta.smoothcriminal.model.*;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
 public class GameLoop {
-    private char move;
     private ConsoleUI ui;
-    private ControllaOggetti controllaOggetti;
     private GiocoConsole giocoConsole;
 
     public GameLoop(ConsoleUI ui, GiocoConsole giocoConsole) {
@@ -20,38 +14,52 @@ public class GameLoop {
         this.giocoConsole = giocoConsole;
     }
 
-    public void run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trappole> trappole){
-        Gadget[] tuttiGadget = CreaOggetti.creaGadget(labirinto, criminal);
-        ui.render(labirinto, criminal);
-        controllaOggetti = new ControllaOggetti(trappole);
+    public void run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trappola> trappole) {
+        ControllaOggetti controllore = new ControllaOggetti(trappole);
+        Gadget[] tuttiGadget = it.volta.smoothcriminal.core.CreaOggetti.creaGadget(labirinto, criminal);
+
         while (!vittoria.getAsBoolean() && !perdita.getAsBoolean()) {
-            if(criminal.getGadgetCriminal()){
-                System.out.println("Hai a disposizione dei gadget!!");
-                System.out.print("Premi: ");
+            ui.render(labirinto, criminal);
+
+            if (criminal.getGadgetCriminal()) {
+                System.out.print("Gadget disponibili (Premi i tasti): ");
                 criminal.mostraTastiGadget();
             }
-            System.out.print("Muoviti: W A S D ");
-            move = ui.leggiInput();
-            if (move == 'x'){
+
+            System.out.print("Mossa (WASD) o Gadget: ");
+            char move = ui.leggiInput();
+
+            if (move == 'x') {
                 giocoConsole.avvia();
+                return;
             }
+
             if (move == 'w' || move == 'a' || move == 's' || move == 'd') {
                 criminal.muovi(move, labirinto);
-                controllaOggetti.controllaTrappole(criminal.getX(), criminal.getY());
-                controllaOggetti.controllaGadget(criminal.getX(), criminal.getY(), tuttiGadget, labirinto, criminal);
+            } else if (Character.isDigit(move)) {
+                gestisciUsoGadget(move, criminal);
             }
-            else{
-                int tasto = move - '0';
-                Gadget[] gadgetUtilizabili = criminal.getGadgetUtilizzabili();
-                for(int i=0;i<3;i++){
-                    if(gadgetUtilizabili[i]!=null && tasto==gadgetUtilizabili[i].getTasto()){
-                        gadgetUtilizabili[i].usa();
-                        criminal.rimuoviGadget(gadgetUtilizabili[i]);
 
-                    }
+            controllore.controllaTrappole(criminal.getX(), criminal.getY());
+            controllore.controllaGadget(criminal.getX(), criminal.getY(), tuttiGadget, labirinto, criminal);
+        }
+    }
+
+    private void gestisciUsoGadget(char tastoChar, Criminal criminal) {
+        int tasto = tastoChar - '0';
+        for (Gadget g : criminal.getGadgetUtilizzabili()) {
+            if (g != null && g.getTasto() == tasto) {
+                char direzioneInviata = ' ';
+                if (g.getNome().equals("distruggi mura") || g.getNome().equals("salta mura")) {
+                    direzioneInviata = ui.chiediDirezioneGadget(g.getNome());
+                } else if (g.getNome().equals("muove diagonale")) {
+                    direzioneInviata = ui.leggiInputDiagonale(g.getNome());
                 }
+
+                g.usa(direzioneInviata);
+                criminal.rimuoviGadget(g);
+                break;
             }
-            ui.render(labirinto, criminal);
         }
     }
 }

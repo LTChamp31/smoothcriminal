@@ -1,4 +1,4 @@
 Marco:10
-Lotan:3
+lotan:9
 paolo:5
 Gabriele:2

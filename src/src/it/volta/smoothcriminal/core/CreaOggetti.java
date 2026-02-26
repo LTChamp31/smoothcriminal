@@ -7,21 +7,20 @@ import java.util.List;
 
 public class CreaOggetti {
 
-    public static List<Trappole> creaTrappole(Labirinto labirinto, Criminal criminal) {
+    public static List<Trappola> creaTrappole(Labirinto labirinto, Criminal criminal) {
         List<Coordinate>[] xyTrappole = labirinto.getTrappole();
-        List<Trappole> trappole = new ArrayList<>();
+        List<Trappola> trappola = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
             for (Coordinate c : xyTrappole[i]) {
-                Trappole t = null;
-                // Use p.getX() and p.getY()
-                if (i == 0) t = new Trappole(labirinto, criminal, c.getX(), c.getY(), "Sposta Uscita");
-                else if (i == 1) t = new Trappole(labirinto, criminal, c.getX(), c.getY(), "Teleport");
+                Trappola t = null;
+                if (i == 0) t = new Trappola(labirinto, criminal, c.getX(), c.getY(), "Sposta Uscita");
+                else if (i == 1) t = new Trappola(labirinto, criminal, c.getX(), c.getY(), "Teleport");
 
-                if (t != null) trappole.add(t);
+                if (t != null) trappola.add(t);
             }
         }
-        return trappole;
+        return trappola;
     }
 
     public static Gadget[] creaGadget(Labirinto labirinto, Criminal criminal){

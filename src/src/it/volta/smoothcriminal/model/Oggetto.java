@@ -1,7 +1,7 @@
 package it.volta.smoothcriminal.model;
 
 
-public abstract class Oggetti {
+public abstract class Oggetto {
 
     protected int x, y;
     protected String nome;
@@ -9,7 +9,7 @@ public abstract class Oggetti {
     protected Criminal criminal;
 
 
-    public Oggetti(Labirinto labirinto, Criminal criminal, int x, int y, String nome) {
+    public Oggetto(Labirinto labirinto, Criminal criminal, int x, int y, String nome) {
         this.labirinto = labirinto;
         this.criminal = criminal;
         this.x = x;
@@ -21,6 +21,6 @@ public abstract class Oggetti {
     public int getY() {return y;}
     public String getNome(){return nome;}
 
-    public abstract void usa();
+    public abstract void usa(char direzione);
 
 }

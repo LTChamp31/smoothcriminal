@@ -1,4 +1,4 @@
-1. far funzionare le trappole 18/02/26
+1. far funzionare le trappola 18/02/26
 2. far funzionare i gadget 20/02/2026🏆🏆🏆
 3. fare le mappe per storia 19/02/2026
 4. fare le mappe per torneo 17/02/26
@@ -11,11 +11,11 @@
 11. salvarsi record di torneo 19/02/2026
 12. salvarsi salvataggi storia 19/02/2026
 13. far funzionare sposta uscita 19/02/2026
-14. LOGIN
+14. LOGIN - GUI(forse)
 15. aggiungere schermata sconfitta 24/02/2026
 16. aggiungere schermata home 24/02/2026
-17. fare classifica
-18. fare JavaDoc
+17. fare classifica - GUI
+18. fare JavaDoc 26/02/2026
 19. fare PlantUML 22/02/2026
-20. sistemare tutto in una logica
+20. sistemare tutto in una logica 26/02/2026
 

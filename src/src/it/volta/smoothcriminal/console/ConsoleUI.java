@@ -1,10 +1,9 @@
 package it.volta.smoothcriminal.console;
 
-import it.volta.smoothcriminal.model.Criminal;
-import it.volta.smoothcriminal.model.Labirinto;
-
+import it.volta.smoothcriminal.model.*;
 import java.io.*;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class ConsoleUI {
     private Scanner input = new Scanner(System.in);
@@ -19,11 +18,51 @@ public class ConsoleUI {
     }
 
     public int scegliModalita() {
-        int ris;
-        stampaMenu();
-        do {
-            ris = input.nextInt();
-        } while (ris != 1 && ris != 2 && ris != 3 && ris !=4 && ris != 5);
+        int ris = 0;
+        boolean inputValido = false;
+
+        while (!inputValido) {
+            try {
+                stampaMenu();
+                System.out.print("Inserisci la tua scelta: ");
+                ris = input.nextInt();
+
+                if (ris >= 1 && ris <= 4) {
+                    inputValido = true;
+                } else {
+                    System.out.println("Scelta non valida. Inserisci un numero tra 1 e 4.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Errore: devi inserire un numero!");
+                input.next();
+            }
+        }
+        return ris;
+    }
+
+    public int scegliInterfaccia() {
+        int ris = 0;
+        boolean inputValido = false;
+
+        System.out.println("Seleziona la modalità di visualizzazione:");
+        System.out.println("1) Giocare su Console");
+        System.out.println("2) Giocare su GUI (Interfaccia Grafica)");
+
+        while (!inputValido) {
+            try {
+                System.out.print("Scelta: ");
+                ris = input.nextInt();
+
+                if (ris == 1 || ris == 2) {
+                    inputValido = true;
+                } else {
+                    System.out.println("Scelta non valida. Inserisci 1 o 2.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Errore: Inserisci un numero intero!");
+                input.next();
+            }
+        }
         return ris;
     }
 
@@ -55,11 +94,17 @@ public class ConsoleUI {
         return move;
     }
 
-    public char leggiInputDiagonale() {
+    public char chiediDirezioneGadget(String nomeGadget) {
+        System.out.println("Uso di " + nomeGadget + ". Scegli direzione (W,A,S,D):");
+        return leggiInput();
+    }
+
+    public char leggiInputDiagonale(String nomeGadget) {
         boolean ok;
         char move;
         do {
             ok = false;
+            System.out.println("Uso di " + nomeGadget + ". Scegli direzione (W,A,S,D):");
             move = Character.toLowerCase(input.next().charAt(0));
             if (move == 'q' || move == 'e' || move == 'z' || move == 'c') {
                 ok = true;

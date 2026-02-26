@@ -1,4 +1,4 @@
-package it.volta.smoothcriminal.model;
+package it.volta.smoothcriminal.core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
