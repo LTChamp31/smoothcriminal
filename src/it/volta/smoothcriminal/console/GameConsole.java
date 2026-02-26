@@ -54,7 +54,7 @@ public class GameConsole extends VideoGame {
             avviaTorneo();
             return true;
         } else if (ris == 4) {
-            String smooth = "src/resources/sound/smooth_criminal.wav";
+            String smooth = "resources/sound/smooth_criminal.wav";
             if (musica != null && musica.isRunning()) {
                 musica.stop();
             } else {
@@ -136,7 +136,7 @@ public class GameConsole extends VideoGame {
     private int contaLivelliStoria() {
         int contatore = 0;
         try (BufferedReader br = new BufferedReader(
-                new FileReader("src/resources/livelli/livelliStoria.txt"))) {
+                new FileReader("resources/livelli/livelliStoria.txt"))) {
             String riga;
             while ((riga = br.readLine()) != null) {
                 if (riga.equals("---")) {
@@ -155,7 +155,7 @@ public class GameConsole extends VideoGame {
      * @return Il numero del livello raggiunto (default 1 se non trovato).
      */
     private int caricaProgresso(String nome) {
-        File file = new File("src/resources/record/salvataggiStoria.txt");
+        File file = new File("resources/record/salvataggiStoria.txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -176,7 +176,7 @@ public class GameConsole extends VideoGame {
      * @param livelloRaggiunto Il numero del nuovo livello raggiunto.
      */
     public void salvaProgresso(String nome, int livelloRaggiunto) {
-        File fileSalvataggi = new File("src/resources/record/salvataggiStoria.txt");
+        File fileSalvataggi = new File("resources/record/salvataggiStoria.txt");
         List<String> righe = new ArrayList<>();
         boolean trovato = false;
         boolean aggiornato = false;
@@ -298,7 +298,7 @@ public class GameConsole extends VideoGame {
      * @param mappa L'identificativo numerico della mappa.
      */
     public void salvaRecord(String nome, long secondi, int mappa) {
-        File fileRecord = new File("src/resources/record", "recordMappa_" + mappa + ".txt");
+        File fileRecord = new File("resources/record", "recordMappa_" + mappa + ".txt");
         List<String> righeClassifica = new ArrayList<>();
         boolean trovato = false;
         boolean aggiornato = false;
@@ -352,7 +352,7 @@ public class GameConsole extends VideoGame {
      * Carica e visualizza il file di testo contenente la schermata di sconfitta.
      */
     public void mostraSconfitta(){
-        File file = new File("src/resources/schermate/Sconfitta.txt");
+        File file = new File("resources/schermate/Sconfitta.txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -366,7 +366,7 @@ public class GameConsole extends VideoGame {
      * Schermata di aiuto con i comandi
      */
     public void avviaComandi(){
-        File file = new File("src/resources/schermate/comandi.txt");
+        File file = new File("resources/schermate/comandi.txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String linea;
             while ((linea = reader.readLine()) != null) {

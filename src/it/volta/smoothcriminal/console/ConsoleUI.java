@@ -190,7 +190,7 @@ public class ConsoleUI {
      * Legge il file del menu principale e lo stampa a video.
      */
     public void stampaMenu() {
-        File file = new File("src/resources/schermate/home.txt");
+        File file = new File("resources/schermate/home.txt");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String linea;

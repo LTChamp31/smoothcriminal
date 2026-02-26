@@ -72,7 +72,7 @@ public class LevelLoader {
         int indiceMappa;
 
         if (tipo == 'S') {
-            tutteLeMappe = leggiFile("src/resources/livelli/livelliStoria.txt");
+            tutteLeMappe = leggiFile("resources/livelli/livelliStoria.txt");
             if (indiceScelto[0] >= 0 && indiceScelto[0] < tutteLeMappe.size()) {
                 indiceMappa = indiceScelto[0];
             } else {
@@ -80,7 +80,7 @@ public class LevelLoader {
             }
             indiceScelto[0] = indiceMappa;
         } else {
-            tutteLeMappe = leggiFile("src/resources/livelli/livelliTorneo.txt");
+            tutteLeMappe = leggiFile("resources/livelli/livelliTorneo.txt");
             Random rand = new Random();
             indiceMappa = rand.nextInt(tutteLeMappe.size());
             indiceScelto[0] = indiceMappa;
