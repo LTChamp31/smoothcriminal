@@ -5,11 +5,30 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * La classe {@code GeneraLabirinto} è responsabile della generazione procedurale
+ * di un labirinto utilizzando l'algoritmo di backtracking ricorsivo.
+ * Il processo inizia riempiendo completamente la griglia di muri e successivamente
+ * "scavando" percorsi casuali garantendo che l'intero labirinto sia navigabile.
+ * * @author Marco Caria & Lotan Teny
+ */
 public class GeneraLabirinto {
+
     private int altezza, larghezza;
+
     private char[][] matrice;
+
+    /** * Template delle direzioni possibili per lo scavo (Nord, Sud, Est, Ovest).
+     * I valori indicano lo spostamento di due unità per saltare il muro intermedio.
+     */
     private Integer[][] direzioniTemplate = {{0,2},{0,-2},{2,0},{-2,0}};
 
+    /**
+     * Costruttore della classe. Inizializza la matrice riempiendola interamente
+     * con il carattere muro ('█').
+     * * @param altezza Il numero di righe della matrice.
+     * @param larghezza Il numero di colonne della matrice.
+     */
     public GeneraLabirinto(int altezza, int larghezza){
         this.altezza = altezza;
         this.larghezza = larghezza;
@@ -20,18 +39,24 @@ public class GeneraLabirinto {
                 matrice[i][j] = '█';
             }
         }
-
     }
 
+    /**
+     * Metodo principale per la generazione del labirinto.
+     * Coordina lo scavo dei percorsi, imposta il punto di uscita ('U') e
+     * converte la matrice interna nel formato List di List richiesto dal modello.
+     * * @return Una rappresentazione del labirinto come {@code List<List<Character>>}.
+     */
     public List<List<Character>> creaLabirinto(){
         crearePassagio(1,1);
+
         matrice[altezza-2][larghezza-1] = 'U';
+
         if (matrice[altezza-2][larghezza-2] == '█') {
             matrice[altezza-2][larghezza-2] = ' ';
         }
 
         List<List<Character>> mat = new ArrayList<>();
-
         for (char[] row : matrice) {
             List<Character> listRow = new ArrayList<>();
             for (char c : row) {
@@ -42,8 +67,18 @@ public class GeneraLabirinto {
         return mat;
     }
 
+    /**
+     * Algoritmo ricorsivo di scavo dei passaggi.
+     * Utilizza una tecnica di randomizzazione delle direzioni per creare
+     * percorsi sempre diversi (DFS - Depth First Search randomizzata).
+     * Per ogni cella, controlla i vicini a distanza 2; se non sono stati visitati,
+     * rimuove il muro intermedio e procede ricorsivamente.
+     * * @param i Coordinata della riga corrente.
+     * @param j Coordinata della colonna corrente.
+     */
     public void crearePassagio(int i, int j){
         matrice[i][j] = ' ';
+
         List<Integer[]> localDirezioni = new ArrayList<>(Arrays.asList(direzioniTemplate));
         Collections.shuffle(localDirezioni);
 
@@ -59,8 +94,9 @@ public class GeneraLabirinto {
         }
     }
 
+    /** @return L'altezza impostata per il labirinto. */
     public int getAltezza() { return altezza; }
+
+    /** @return La larghezza impostata per il labirinto. */
     public int getLarghezza() { return larghezza; }
-
-
 }

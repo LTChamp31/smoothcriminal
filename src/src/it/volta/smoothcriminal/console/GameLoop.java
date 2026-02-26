@@ -5,15 +5,42 @@ import it.volta.smoothcriminal.model.*;
 import java.util.List;
 import java.util.function.BooleanSupplier;
 
+/**
+ * La classe GameLoop gestisce il ciclo principale di esecuzione durante una partita.
+ * Coordina il rendering della mappa, la lettura dell'input dell'utente,
+ * lo spostamento del giocatore e l'interazione con oggetti e trappole.
+ * * @author Marco Caria & Lotan Teny
+ */
 public class GameLoop {
+
     private ConsoleUI ui;
     private GiocoConsole giocoConsole;
 
+    /**
+     * Costruttore della classe GameLoop.
+     * * @param ui L'istanza di {@link ConsoleUI} utilizzata per input e output.
+     * @param giocoConsole L'istanza di {@link GiocoConsole} che gestisce lo stato globale.
+     */
     public GameLoop(ConsoleUI ui, GiocoConsole giocoConsole) {
         this.ui = ui;
         this.giocoConsole = giocoConsole;
     }
 
+    /**
+     * Avvia e mantiene attivo il ciclo di gioco finché non si vince o si perde.
+     * All'interno del ciclo vengono gestiti:
+     *
+     * Il rendering della mappa e del criminale.
+     * La visualizzazione dei gadget disponibili.
+     * L'elaborazione dei comandi di movimento (WASD) o di uscita (X).
+     * L'attivazione dei gadget.
+     * Il controllo delle trappole e gadget.
+     * * @param labirinto L'istanza del {@link Labirinto} corrente.
+     * @param criminal L'istanza del {@link Criminal} controllato dall'utente.
+     * @param vittoria Un {@link BooleanSupplier} che restituisce true se il giocatore ha vinto.
+     * @param perdita Un {@link BooleanSupplier} che restituisce true se il giocatore ha perso.
+     * @param trappole La lista delle {@link Trappola} presenti nel livello corrente.
+     */
     public void run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trappola> trappole) {
         ControllaOggetti controllore = new ControllaOggetti(trappole);
         Gadget[] tuttiGadget = it.volta.smoothcriminal.core.CreaOggetti.creaGadget(labirinto, criminal);
@@ -45,6 +72,13 @@ public class GameLoop {
         }
     }
 
+    /**
+     * Metodo per gestire l'attivazione e l'uso di un gadget.
+     * Identifica il gadget dal tasto premuto e, se necessario, richiede alla UI
+     * la direzione prima di procedere all'uso.
+     * * @param tastoChar Il carattere numerico inserito dall'utente.
+     * @param criminal L'istanza del giocatore che possiede i gadget.
+     */
     private void gestisciUsoGadget(char tastoChar, Criminal criminal) {
         int tasto = tastoChar - '0';
         for (Gadget g : criminal.getGadgetUtilizzabili()) {

@@ -5,8 +5,26 @@ import it.volta.smoothcriminal.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * La classe {@code CreaOggetti} è una classe che crea
+ * gli oggetti del gioco.
+ * Si occupa di leggere i dati forniti dal {@link Labirinto} per istanziare
+ * correttamente le liste di trappole e l'array di gadget necessari per la partita.
+ *
+ * * @author Marco Caria & Lotan Teny
+ */
 public class CreaOggetti {
 
+    /**
+     * Genera una lista di trappole basandosi sulle coordinate estratte dal labirinto.
+     * Il metodo itera attraverso le diverse categorie di trappole definite nella mappa:
+     * Indice 0: Trappola "Sposta Uscita"
+     * Indice 1: Trappola "Teleport"
+     *
+     * @param labirinto L'istanza del {@link Labirinto} da cui estrarre le coordinate delle trappole.
+     * @param criminal  L'istanza del {@link Criminal} a cui associare le trappole.
+     * @return Una {@link List} di oggetti {@link Trappola} pronti per essere inseriti nel gioco.
+     */
     public static List<Trappola> creaTrappole(Labirinto labirinto, Criminal criminal) {
         List<Coordinate>[] xyTrappole = labirinto.getTrappole();
         List<Trappola> trappola = new ArrayList<>();
@@ -23,6 +41,20 @@ public class CreaOggetti {
         return trappola;
     }
 
+    /**
+     * Inizializza l'array di gadget disponibili nel livello corrente.
+     * Ogni gadget viene creato con un nome specifico e un tasto di scelta rapida associato
+     * in base al suo indice nel file di caricamento:
+     * Indice 0: distruggi mura (Tasto 1)
+     * Indice 1: salta mura (Tasto 2)
+     * Indice 2: muove diagonale (Tasto 3)
+     * Indice 3: bomba (Tasto 4)
+     * Indice 4: avvicina uscita (Tasto 5)
+     *
+     * @param labirinto L'istanza del {@link Labirinto} contenente le posizioni dei gadget.
+     * @param criminal  L'istanza del {@link Criminal} che potrà raccogliere i gadget.
+     * @return Un array di {@link Gadget} contenente gli oggetti posizionati nella mappa.
+     */
     public static Gadget[] creaGadget(Labirinto labirinto, Criminal criminal){
         int[][] xyGadgets = labirinto.getGadget();
         Gadget[] gadgets = new Gadget[5];
@@ -55,8 +87,4 @@ public class CreaOggetti {
         }
         return gadgets;
     }
-
-
-
-
 }
