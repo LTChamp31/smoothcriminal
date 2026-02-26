@@ -41,7 +41,7 @@ public class GameLoop {
      * @param perdita Un {@link BooleanSupplier} che restituisce true se il giocatore ha perso.
      * @param trappole La lista delle {@link Trappola} presenti nel livello corrente.
      */
-    public void run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trappola> trappole) {
+    public boolean run(Labirinto labirinto, Criminal criminal, BooleanSupplier vittoria, BooleanSupplier perdita, List<Trappola> trappole) {
         ControllaOggetti controllore = new ControllaOggetti(trappole);
         Gadget[] tuttiGadget = it.volta.smoothcriminal.core.CreaOggetti.creaGadget(labirinto, criminal);
 
@@ -49,7 +49,7 @@ public class GameLoop {
             ui.render(labirinto, criminal);
 
             if (criminal.getGadgetCriminal()) {
-                System.out.print("Gadget disponibili (Premi i tasti): ");
+                System.out.print("Gadget disponibili: ");
                 criminal.mostraTastiGadget();
             }
 
@@ -57,8 +57,7 @@ public class GameLoop {
             char move = ui.leggiInput();
 
             if (move == 'x') {
-                giocoConsole.avvia();
-                return;
+                return false; // L'utente ha chiesto di uscire
             }
 
             if (move == 'w' || move == 'a' || move == 's' || move == 'd') {
@@ -70,6 +69,7 @@ public class GameLoop {
             controllore.controllaTrappole(criminal.getX(), criminal.getY());
             controllore.controllaGadget(criminal.getX(), criminal.getY(), tuttiGadget, labirinto, criminal);
         }
+        return true; // La partita è finita per vittoria o perdita
     }
 
     /**

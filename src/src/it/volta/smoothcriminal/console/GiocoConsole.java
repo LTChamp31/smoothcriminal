@@ -84,24 +84,28 @@ public class GiocoConsole extends Videogioco {
             this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
             this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
 
-            loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
+            boolean terminatoRegolarmente = loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
+
+            if (!terminatoRegolarmente) {
+                return;
+            }
 
             if (controllaVittoria()) {
                 livelloCorrente++;
                 salvaProgresso(nome, livelloCorrente);
+                System.out.println("Livello Completato! Preparati per il prossimo...");
             }
             else if (controllaPerdita()) {
                 mostraSconfitta();
-                try {
-                    System.in.read();
-                } catch (IOException e) {
-                    System.out.println("Errore lettura tasto");
-                }
-                avvia();
+                System.out.println("Premi INVIO per tornare al menu...");
+                try { System.in.read(); } catch (IOException e) {}
                 return;
             }
         }
-        System.out.println("Complimenti! Hai completato la modalità Storia!");
+
+        System.out.println("Complimenti " + nome + "! Hai completato la modalità Storia!");
+        System.out.println("Premi INVIO per tornare al menu...");
+        try { System.in.read(); } catch (IOException e) {}
     }
 
     /**
@@ -212,9 +216,14 @@ public class GiocoConsole extends Videogioco {
         this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
 
         long inizio = System.currentTimeMillis();
-        loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
-        long fine = System.currentTimeMillis();
 
+        boolean terminatoRegolarmente = loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
+
+        if (!terminatoRegolarmente) {
+            return;
+        }
+
+        long fine = System.currentTimeMillis();
         long secondi = (fine - inizio) / 1000;
         System.out.println("Tempo completamento: " + secondi + " secondi");
         System.out.println("Premi INVIO per tornare al menu...");
@@ -228,6 +237,7 @@ public class GiocoConsole extends Videogioco {
     public void avviaTorneo() {
         int[] indice = new int[1];
         this.loader = new LevelLoader();
+
         this.labirinto = loader.loadLevel(indice, 'T');
         this.criminal = new Criminal(labirinto.getInizioX(), labirinto.getInizioY());
         this.trappola = CreaOggetti.creaTrappole(labirinto, criminal);
@@ -235,14 +245,24 @@ public class GiocoConsole extends Videogioco {
         String nome = ui.scegliNome();
         long inizio = System.currentTimeMillis();
 
-        loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
+        boolean terminatoRegolarmente = loop.run(labirinto, criminal, this::controllaVittoria, this::controllaPerdita, trappola);
 
-        long fine = System.currentTimeMillis();
-        long secondi = (fine - inizio) / 1000;
+        if (!terminatoRegolarmente) {
+            return;
+        }
 
-        salvaRecord(nome, secondi, indice[0] + 1);
+        if (controllaVittoria()) {
+            long fine = System.currentTimeMillis();
+            long secondi = (fine - inizio) / 1000;
 
-        System.out.println("Tempo completamento: " + secondi + " secondi");
+            salvaRecord(nome, secondi, indice[0] + 1);
+
+            System.out.println("\nGRANDE PROVA!");
+            System.out.println("Tempo completamento: " + secondi + " secondi");
+        } else {
+            mostraSconfitta();
+        }
+
         System.out.println("Premi INVIO per tornare al menu...");
         try { System.in.read(); } catch (IOException e) {}
     }
