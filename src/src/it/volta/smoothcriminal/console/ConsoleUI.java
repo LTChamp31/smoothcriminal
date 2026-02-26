@@ -5,6 +5,12 @@ import java.io.*;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
+// Musica
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 /**
  * La classe ConsoleUI gestisce l'intera interfaccia CLI del gioco.
  * Si occupa dell'interazione diretta con l'utente e della lettura dell'input,
@@ -12,7 +18,6 @@ import java.util.InputMismatchException;
  * * @author Marco Caria & Lotan Teny
  */
 public class ConsoleUI {
-
     private Scanner input = new Scanner(System.in);
     /**
      * Costruttore della classe ConsoleUI.
@@ -38,6 +43,7 @@ public class ConsoleUI {
      * * @return Un intero rappresentante la modalità scelta (1-4).
      */
     public int scegliModalita() {
+
         int ris = 0;
         boolean inputValido = false;
 
@@ -47,10 +53,10 @@ public class ConsoleUI {
                 System.out.print("Inserisci la tua scelta: ");
                 ris = input.nextInt();
 
-                if (ris >= 1 && ris <= 4) {
+                if (ris >= 1 && ris <= 6) {
                     inputValido = true;
                 } else {
-                    System.out.println("Scelta non valida. Inserisci un numero tra 1 e 4.");
+                    System.out.println("Scelta non valida. Inserisci un numero tra 1 e 6.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Errore: devi inserire un numero!");

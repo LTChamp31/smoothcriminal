@@ -14,8 +14,11 @@
                     1 ▸ STORIA
                     2 ▸ ALLENAMENTO
                     3 ▸ TORNEO
-                    4 ▸ ESCI
+                    4 ▸ MUSICA
+                    5 ▸ COMANDI
+                    6 ▸ ESCI
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
                 Inserisci la tua scelta
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

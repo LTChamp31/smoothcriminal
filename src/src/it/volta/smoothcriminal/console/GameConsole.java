@@ -2,6 +2,11 @@ package it.volta.smoothcriminal.console;
 
 import it.volta.smoothcriminal.core.*;
 import it.volta.smoothcriminal.model.*;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,7 @@ public class GameConsole extends VideoGame {
     private GameLoop loop;
     private LevelLoader loader = new LevelLoader();
     private List<Trap> trap;
-
+    private Clip musica;
     /**
      * Costruttore della classe {@code GameConsole}.
      * Inizializza l'interfaccia utente e il ciclo di gioco.
@@ -45,12 +50,26 @@ public class GameConsole extends VideoGame {
         } else if (ris == 2) {
             avviaAllenamento();
             return true;
-        } else if (ris == 3){
+        } else if (ris == 3) {
             avviaTorneo();
             return true;
-        } else {
+        } else if (ris == 4) {
+            String smooth = "src/resources/sound/smooth_criminal.wav";
+            if (musica != null && musica.isRunning()) {
+                musica.stop();
+            } else {
+                musica = PlayMusic(smooth);
+            }
+            avvia();
+            return true;
+        } else if (ris == 5) {
+            avviaComandi();
+            return true;
+        } else if (ris == 6) {
             System.out.println("Ciao Ciao");
             System.exit(0);
+            return false;
+        } else {
             return false;
         }
     }
@@ -100,13 +119,14 @@ public class GameConsole extends VideoGame {
                 mostraSconfitta();
                 System.out.println("Premi INVIO per tornare al menu...");
                 try { System.in.read(); } catch (IOException e) {}
-                return;
+                avvia();
             }
         }
 
         System.out.println("Complimenti " + nome + "! Hai completato la modalità Storia!");
         System.out.println("Premi INVIO per tornare al menu...");
         try { System.in.read(); } catch (IOException e) {}
+        avvia();
     }
 
     /**
@@ -229,6 +249,7 @@ public class GameConsole extends VideoGame {
         System.out.println("Tempo completamento: " + secondi + " secondi");
         System.out.println("Premi INVIO per tornare al menu...");
         try { System.in.read(); } catch (IOException e) {}
+        avvia();
     }
 
     /**
@@ -266,6 +287,7 @@ public class GameConsole extends VideoGame {
 
         System.out.println("Premi INVIO per tornare al menu...");
         try { System.in.read(); } catch (IOException e) {}
+        avvia();
     }
 
     /**
@@ -339,5 +361,43 @@ public class GameConsole extends VideoGame {
         } catch (IOException e) {
             System.out.println("Errore nella lettura della schermata sconfitta.");
         }
+    }
+    /**
+     * Schermata di aiuto con i comandi
+     */
+    public void avviaComandi(){
+        File file = new File("src/resources/schermate/comandi.txt");
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                System.out.println(linea);
+            }
+        } catch (IOException e) {
+            System.out.println("Errore nella lettura della schermata sconfitta.");
+        }
+        System.out.println("Premi INVIO per tornare al menu...");
+        try { System.in.read(); } catch (IOException e) {}
+        avvia();
+    }
+
+    public static Clip PlayMusic(String path) {
+        try {
+            File music = new File(path);
+            if (music.exists()) {
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(music);
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioStream);
+
+                FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+
+                control.setValue((float) Math.log10(0.05f) * 20);
+
+                clip.start();
+                return clip;
+            }
+        } catch (Exception e){
+            System.out.println("Errore durante la riproduzione della musica: ");
+        }
+        return null;
     }
 }

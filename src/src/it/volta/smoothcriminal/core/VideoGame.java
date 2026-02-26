@@ -23,8 +23,9 @@ public abstract class VideoGame {
      * Inizializza i riferimenti al giocatore e al mondo di gioco, impostando
      * lo stato della partita come attivo.
      *
-     * @param criminal  L'oggetto {@link Criminal} controllato dal giocatore.
-     * @param maze L'oggetto {@link Maze} in cui sono posizionati ostacoli e nemici.
+     * @param criminal L'oggetto {@link Criminal} controllato dal giocatore.
+     * @param maze     L'oggetto {@link Maze} in cui sono posizionati ostacoli e
+     *                 nemici.
      */
     public VideoGame(Criminal criminal, Maze maze) {
         this.criminal = criminal;
@@ -34,14 +35,15 @@ public abstract class VideoGame {
 
     /**
      * Verifica se il giocatore ha raggiunto la posizione d'uscita del maze.
-     * Se le coordinate del criminale coincidono con l'uscita, il gioco viene terminato.
+     * Se le coordinate del criminale coincidono con l'uscita, il gioco viene
+     * terminato.
      *
      * @return {@code true} se il giocatore ha vinto, {@code false} altrimenti.
      */
     public boolean controllaVittoria() {
         int x = criminal.getX();
         int y = criminal.getY();
-        if (maze.isUscita(x,y)) {
+        if (maze.isUscita(x, y)) {
             inCorso = false;
             return true;
         }
@@ -51,9 +53,13 @@ public abstract class VideoGame {
     /**
      * Gestisce la logica dei nemici e verifica la condizione di sconfitta.
      * Il metodo esegue due operazioni principali per ogni nemico presente nel maze:
-     * Controlla se le coordinate del nemico coincidono con quelle del giocatore (collisione).
-     * Se non c'è collisione, comanda al nemico di eseguire il proprio movimento verso il giocatore.
-     * @return {@code true} se un nemico ha catturato il criminale, {@code false} se il giocatore è ancora al sicuro.
+     * Controlla se le coordinate del nemico coincidono con quelle del giocatore
+     * (collisione).
+     * Se non c'è collisione, comanda al nemico di eseguire il proprio movimento
+     * verso il giocatore.
+     * 
+     * @return {@code true} se un nemico ha catturato il criminale, {@code false} se
+     *         il giocatore è ancora al sicuro.
      */
     public boolean controllaPerdita() {
         int cx = criminal.getX();
@@ -65,10 +71,13 @@ public abstract class VideoGame {
             nx = enemy.get(i).getX();
             ny = enemy.get(i).getY();
 
-            if(nx == cx && ny == cy) {
+            if (nx == cx && ny == cy) {
                 return true;
             } else {
                 enemy.get(i).muovi(maze, criminal);
+                if (enemy.get(i).getX() == cx && enemy.get(i).getY() == cy) {
+                    return true;
+                }
             }
         }
 

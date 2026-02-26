@@ -1,0 +1,263 @@
+@startuml
+class Main {
+    --
+    + {static} main(args: String[]): void
+}
+
+class ConsoleUI {
+    - input: Scanner
+    --
+    + ConsoleUI()
+    + scegliNome(): String
+    + scegliModalita(): int
+    + scegliInterfaccia(): int
+    + render(maze: Maze, criminal: Criminal): void
+    + leggiInput(): char
+    + chiediDirezioneGadget(nomeGadget: String): char
+    + leggiInputDiagonale(nomeGadget: String): char
+    + leggiInputLivelloSalvato(livelloSalvato: int): int
+    + stampaMenu(): void
+}
+
+class CheckObjects {
+    - trap: List<Trap>
+    --
+    + CheckObjects(trap: List<Trap>)
+    + controllaTrappole(x: int, y: int): void
+    + controllaGadget(x: int, y: int, tuttiGadget: Gadget[], maze: Maze, criminal: Criminal): void
+}
+
+class GameLoop {
+    - ui: ConsoleUI
+    - gameConsole: GameConsole
+    --
+    + GameLoop(ui: ConsoleUI, gameConsole: GameConsole)
+    + run(maze: Maze, criminal: Criminal, vittoria: BooleanSupplier, perdita: BooleanSupplier, trappole: List<Trap>): boolean
+    - gestisciUsoGadget(tastoChar: char, criminal: Criminal): void
+}
+
+class GameConsole extends VideoGame {
+    - ui: ConsoleUI
+    - loop: GameLoop
+    - loader: LevelLoader
+    - trap: List<Trap>
+    --
+    + GameConsole(criminal: Criminal, maze: Maze)
+    + avvia(): boolean
+    + avviaStoria(): void
+    - contaLivelliStoria(): int
+    - caricaProgresso(nome: String): int
+    + salvaProgresso(nome: String, livelloRaggiunto: int): void
+    + avviaAllenamento(): void
+    + avviaTorneo(): void
+    + salvaRecord(nome: String, secondi: long, mappa: int): void
+    + mostraSconfitta(): void
+}
+
+class CreateObjects {
+    --
+    + {static} creaTrappole(maze: Maze, criminal: Criminal): List<Trap>
+    + {static} creaGadget(maze: Maze, criminal: Criminal): Gadget[]
+}
+
+class Entity {
+    * x: int
+    * y: int
+    --
+    + Entity(x: int, y: int)
+    + getX(): int
+    + getY(): int
+    + setXY(x: int, y: int): void
+}
+
+abstract class VideoGame {
+    * criminal: Criminal
+    * maze: Maze
+    * inCorso: boolean
+    --
+    + VideoGame(criminal: Criminal, maze: Maze)
+    + controllaVittoria(): boolean
+    + controllaPerdita(): boolean
+    + {abstract} avvia(): boolean
+}
+
+class Coordinates {
+    - x: int
+    - y: int
+    --
+    + Coordinates(x: int, y: int)
+    + getX(): int
+    + getY(): int
+}
+
+class Criminal extends Entity {
+    - gadgetCriminal: boolean
+    - gadgetUtilizzabili: Gadget[]
+    - numeroGadget: int
+    --
+    + Criminal(x: int, y: int)
+    + muovi(dir: char, mappa: Maze): boolean
+    + aggiungiGadget(gadget: Gadget): void
+    + rimuoviGadget(gadget: Gadget): void
+    + mostraTastiGadget(): void
+    + getGadgetUtilizzabili(): Gadget[]
+    + getGadgetCriminal(): boolean
+}
+
+class Gadget extends Objects {
+    - tasto: int
+    - raccolto: boolean
+    --
+    + Gadget(nome: String, x: int, y: int, maze: Maze, criminal: Criminal, tasto: int)
+    + usa(direzione: char): void
+    - azioneDistruggi(dir: char, cx: int, cy: int): void
+    - azioneSalta(dir: char, cx: int, cy: int): void
+    - azioneDiagonale(dir: char, cx: int, cy: int): void
+    - azioneBomba(cx: int, cy: int): void
+    + getTasto(): int
+    + getRaccolto(): boolean
+    + setRaccolto(raccolto: boolean): void
+}
+
+class GenerateMaze {
+    - altezza: int
+    - larghezza: int
+    - matrice: char[][]
+    - direzioniTemplate: Integer[][]
+    --
+    + GenerateMaze(altezza: int, larghezza: int)
+    + creaLabirinto(): List<List<Character>>
+    + crearePassagio(i: int, j: int): void
+    + getAltezza(): int
+    + getLarghezza(): int
+}
+
+class Maze {
+    - inizioX: int
+    - inizioY: int
+    - colonne: int
+    - uscitaY: int
+    - uscitaX: int
+    - mat: List<List<Character>>
+    - xyTrappole: List<Coordinates>[]
+    - xyGadget: int[][]
+    - enemy: List<Enemy>
+    --
+    + Maze(mat: List<List<Character>>, inizioX: int, inizioY: int, colonne: int, uscitaX: int, uscitaY: int, xyTrappole: List<Coordinates>[], xyGadget: int[][], enemy: List<Enemy>)
+    + isMuro(x: int, y: int): boolean
+    + isUscita(x: int, y: int): boolean
+    + mappa(x: int, y: int): String
+    + setCarattere(x: int, y: int, c: char): void
+    + cancellaCarattere(x: int, y: int): void
+    + spostaUscita(ux: int, uy: int): void
+    + avvicinaUscita(xc: int, yc: int, xu: int, yu: int): void
+    + getInizioX(): int
+    + getInizioY(): int
+    + getUscitaX(): int
+    + getUscitaY(): int
+    + getGadget(): int[][]
+    + getTrappole(): List<Coordinates>[]
+    + getColonne(): int
+    + getRighe(): int
+    + getNemici(): List<Enemy>
+    + getCarattere(x: int, y: int): char
+}
+
+class LevelLoader {
+    - righe: int
+    - colonne: int
+    - inizioX: int
+    - inizioY: int
+    - uscitaX: int
+    - uscitaY: int
+    - mat: List<List<Character>>
+    - xyTrappole: List<Coordinates>[]
+    - xyGadget: int[][]
+    - enemy: List<Enemy>
+    - altezza: int
+    - larghezza: int
+    - generateMaze: GenerateMaze
+    --
+    + LevelLoader()
+    + loadLevel(): Maze
+    + loadLevel(indiceScelto: int[], tipo: char): Maze
+    + leggiFile(indirizzo: String): List<String>
+}
+
+class Enemy extends Entity {
+    - carattereSotto: char
+    --
+    + Enemy(x: int, y: int)
+    + muovi(mappa: Maze, criminal: Criminal): void
+}
+
+abstract class Objects {
+    * x: int
+    * y: int
+    * nome: String
+    * maze: Maze
+    * criminal: Criminal
+    --
+    + Objects(maze: Maze, criminal: Criminal, x: int, y: int, nome: String)
+    + getX(): int
+    + getY(): int
+    + getNome(): String
+    + {abstract} usa(direzione: char): void
+}
+
+class Trap extends Objects {
+    --
+    + Trap(maze: Maze, criminal: Criminal, x: int, y: int, nome: String)
+    + usa(direzione: char): void
+}
+
+annotation livelli {
+  "livelliStoria.txt"
+  "livelliTorneo.txt"
+}
+
+annotation record {
+  "recordMappa_N.txt"
+  "salvataggiStoria.txt"
+}
+
+annotation schermate {
+  "home.txt"
+  "Sconfitta.txt"
+}
+
+Main --> GameConsole : crea istanza
+GameConsole --> ConsoleUI : crea
+GameConsole --> GameLoop : crea
+GameConsole --> LevelLoader : crea
+GameConsole --> record : legge/scrive
+GameConsole --> livelli : legge/scrive
+GameConsole --> schermate : legge sconfitta
+
+LevelLoader --> Maze : crea livello
+LevelLoader --> GenerateMaze : genera mappa
+LevelLoader --> Enemy : crea nemici
+LevelLoader --> record : legge
+LevelLoader --> livelli : legge
+
+ConsoleUI --> schermate: legge home
+
+GameLoop --> Criminal : aggiorna posizione
+GameLoop --> Maze : controlla stato
+GameLoop --> CheckObjects : delega controlli
+GameLoop --> ConsoleUI : aggiorna output
+
+CheckObjects --> Gadget : raccoglie gadget
+CheckObjects --> Trap : attiva trappole
+CheckObjects --> Criminal : modifica stato
+CheckObjects --> Maze : modifica mappa
+
+Gadget --> Maze : modifica celle
+Gadget --> Criminal : applica effetto
+
+Trap --> Criminal : infligge effetto
+Trap --> Maze : modifica celle
+
+CreateObjects --> Gadget: crea
+CreateObjects --> Trap: crea
+@enduml

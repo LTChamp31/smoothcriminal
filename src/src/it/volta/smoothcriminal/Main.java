@@ -2,10 +2,10 @@ package it.volta.smoothcriminal;
 
 import it.volta.smoothcriminal.console.*;
 
+
 public class Main {
     public static void main(String[] args) {
         ConsoleUI ui = new ConsoleUI();
-
         int sceltaInterfaccia;
         do {
             sceltaInterfaccia = ui.scegliInterfaccia();
@@ -17,4 +17,6 @@ public class Main {
             }
         } while (sceltaInterfaccia == 2);
     }
+
+
 }
