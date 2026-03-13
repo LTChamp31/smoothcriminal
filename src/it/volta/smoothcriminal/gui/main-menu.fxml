@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.volta.smoothcriminal.gui.TestController">
+   <children>
+      <Label layoutX="144.0" prefHeight="101.0" prefWidth="313.0" text="SmoothCriminal&#10;&#10;" textAlignment="CENTER">
+         <font>
+            <Font name="MS UI Gothic" size="45.0" />
+         </font>
+      </Label>
+      <Button layoutX="52.0" layoutY="126.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Storia" />
+      <Button layoutX="52.0" layoutY="187.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Allenamento" />
+      <Button layoutX="52.0" layoutY="262.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Torneo" />
+      <Button layoutX="411.0" layoutY="126.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Musica" />
+      <Button layoutX="411.0" layoutY="187.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Commandi" />
+      <Button layoutX="411.0" layoutY="262.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" text="Esci" />
+   </children>
+</AnchorPane>
