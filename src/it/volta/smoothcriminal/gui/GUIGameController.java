@@ -7,7 +7,6 @@ import it.volta.smoothcriminal.model.Criminal;
 import it.volta.smoothcriminal.model.Gadget;
 import it.volta.smoothcriminal.model.Maze;
 import it.volta.smoothcriminal.model.Trap;
-import it.volta.smoothcriminal.model.Enemy;
 
 import javafx.scene.input.KeyEvent;
 import java.util.List;
@@ -201,7 +200,7 @@ public class GUIGameController {
         int cx = criminal.getX();
         int cy = criminal.getY();
         if (maze.getNemici() != null) {
-            for (Enemy e : maze.getNemici()) {
+            for (it.volta.smoothcriminal.model.Enemy e : maze.getNemici()) {
                 if (e.getX() == cx && e.getY() == cy) return true;
                 e.muovi(maze, criminal);
                 if (e.getX() == cx && e.getY() == cy) return true;

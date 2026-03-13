@@ -3,6 +3,7 @@ package it.volta.smoothcriminal.gui;
 import it.volta.smoothcriminal.console.GameConsole;
 import it.volta.smoothcriminal.model.Gadget;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -27,7 +28,16 @@ public class GUIApplication extends Application {
     private Label infoLabel;
     private Clip bgMusic;
 
-    @Override
+    public void start(Stage stage) throws Exception {
+        // This looks for the file in your resources
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main-menu.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        stage.setTitle("Hello!");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /*@Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Smooth Criminal - JavaFX GUI");
@@ -35,7 +45,7 @@ public class GUIApplication extends Application {
         
         showMainMenu();
         primaryStage.show();
-    }
+    }*/
 
     public void showMainMenu() {
         VBox root = new VBox(15);
