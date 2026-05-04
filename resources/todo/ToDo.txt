@@ -18,4 +18,13 @@
 18. fare JavaDoc 26/02/2026
 19. fare PlantUML 22/02/2026
 20. sistemare tutto in una logica 26/02/2026
+21. GUI
+22. PlantUML
+23  JavaDOC
+24. Sprite
+25. Manuale(sito web + download)
+26. cambio uscita
+27. combo wall e ground
+28. Cambio personaggi
+29. "schermate" vittoria e sconfitta
 

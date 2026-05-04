@@ -1,1 +1,2 @@
 marco:30
+Lotan:15

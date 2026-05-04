@@ -45,6 +45,8 @@ public class LevelLoader {
      */
     public Maze loadLevel() {
         mat.clear();
+        enemy.clear();
+        xyGadget = new int[5][2];
         mat = generateMaze.creaLabirinto();
         colonne = generateMaze.getLarghezza();
         righe = generateMaze.getAltezza();
@@ -89,6 +91,8 @@ public class LevelLoader {
         String mappaAscii = tutteLeMappe.get(indiceMappa);
 
         mat.clear();
+        enemy.clear();
+        xyGadget = new int[5][2];
         for (int i = 0; i < 3; i++)
             xyTrappole[i].clear();
 

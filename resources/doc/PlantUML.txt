@@ -226,6 +226,100 @@ annotation schermate {
   "Sconfitta.txt"
 }
 
+class GameGUI extends VideoGame {
+    - frame: JFrame
+    - menuPanel: MenuPanel
+    - gamePanel: GamePanel
+    - musica: Clip
+    - isMusicPlaying: boolean
+    - loader: LevelLoader
+    - currentMode: String
+    - playerName: String
+    - livelloCorrente: int
+    - indiceTorneo: int[]
+    - startTime: long
+    --
+    + GameGUI(criminal: Criminal, maze: Maze)
+    + avvia(): boolean
+    + avviaAllenamento(): void
+    + avviaStoria(): void
+    + avviaTorneo(): void
+    - avviaGioco(): void
+    + tornaAlMenu(): void
+    + toggleMusic(): void
+    + isMusicPlaying(): boolean
+    + mostraVittoria(): void
+    + mostraSconfitta(): void
+    - contaLivelliStoria(): int
+    - caricaProgresso(nome: String): int
+    - salvaProgresso(nome: String, livello: int): void
+    - salvaRecord(nome: String, secondi: long, mappa: int): void
+}
+
+class GamePanel {
+    - gui: GameGUI
+    - maze: Maze
+    - criminal: Criminal
+    - trappole: List<Trap>
+    - tuttiGadget: Gadget[]
+    - controllore: CheckObjects
+    - gadgetUsati: Gadget[]
+    - gadgetInAttesa: String
+    - cGadgetUsati: int
+
+    - wallImage: Image
+    - groundImage: Image
+    - criminalImage: Image
+    - policeImage: Image
+    - distuggiMuraImage: Image
+    - saltaMuraImage: Image
+    - diagonaleImage: Image
+    - bombImage: Image
+    - uscitaImage: Image
+    --
+    + GamePanel(gui: GameGUI, maze: Maze, criminal: Criminal)
+
+    - setupKeyBindings(): void
+    - bindKey(im: InputMap, am: ActionMap, keyCode: int, name: String, moveChar: char): void
+    - eseguiMossa(move: char): void
+    - gestisciUsoGadgetMenu(criminal: Criminal, nome: String): boolean
+    - usaGadgetConDirezione(direzione: char): boolean
+    - finalizzaUso(g: Gadget): void
+    - gadgetPreso(g: Gadget): boolean
+    - drawHUD(g: Graphics): void
+
+    + gadgetUsato(g: Gadget): boolean
+    # paintComponent(g: Graphics): void
+}
+
+class MenuPanel {
+    - gui: GameGUI
+    - bgImage: Image
+    --
+    + MenuPanel(gui: GameGUI)
+    - createButton(text: String): JButton
+    + paintComponent(g: Graphics): void
+}
+
+
+GameGUI --> MenuPanel : crea
+GameGUI --> GamePanel : crea
+GameGUI --> LevelLoader : usa
+GameGUI --> GameConsole : usa musica
+
+GamePanel --> GameGUI : riferimento
+GamePanel --> Maze : usa
+GamePanel --> Criminal : usa
+GamePanel --> CheckObjects : usa
+GamePanel --> Gadget : usa
+GamePanel --> Trap : usa
+GamePanel --> CreateObjects : crea oggetti
+
+MenuPanel --> GameGUI : controlla flusso
+
+GameGUI --|> VideoGame
+
+
 Main --> GameConsole : crea istanza
 GameConsole --> ConsoleUI : crea
 GameConsole --> GameLoop : crea
@@ -260,4 +354,5 @@ Trap --> Maze : modifica celle
 
 CreateObjects --> Gadget: crea
 CreateObjects --> Trap: crea
+
 @enduml
